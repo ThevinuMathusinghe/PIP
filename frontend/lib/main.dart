@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void newTest() async {
     try {
+      print("ikdhf ghfk g");
       final File imageFile =
           await ImagePicker.pickImage(source: ImageSource.gallery);
       if (imageFile == null) return;
