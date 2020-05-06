@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "414658397599",
+    "firebase_url": "https://personal-information-ab365.firebaseio.com",
+    "project_id": "personal-information-ab365",
+    "storage_bucket": "personal-information-ab365.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414658397599:android:894a39373acf4d603da9aa",
+        "android_client_info": {
+          "package_name": "personal.information.purchasing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414658397599-8pmge2ocpbfpfe5uaskhfft20hd2k9vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDNyGjnNqlcq4PCKO6_nEI7FGr19NUfpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414658397599-8pmge2ocpbfpfe5uaskhfft20hd2k9vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
