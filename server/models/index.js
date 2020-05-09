@@ -17,3 +17,9 @@ mongoose
 module.exports.User = require('./user');
 
 module.exports.Information = require('./information');
+
+module.exports.Logo = require('./logo');
+
+module.exports.ReviewsCompany = require('./reviewscompany');
+
+module.exports.Categories = require('./categories');
