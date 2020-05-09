@@ -13,10 +13,23 @@ const storage = new Storage({
   projectId: 'personal-information-ab365',
 });
 const vision = require('@google-cloud/vision');
+const db = require('./models');
 
 const bucket = storage.bucket('compx241-pip');
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
+app.get('/login', async (req, res, next) => {
+  try {
+    const user = await db.User.create({
+      ...req.body,
+    });
+    res.send('Success');
+  } catch (err) {
+    console.log(err);
+    res.json({ err });
+  }
+});
 
 app.get('/', (req, res, next) => {
   try {
