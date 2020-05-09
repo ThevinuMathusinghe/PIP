@@ -14,10 +14,13 @@ const storage = new Storage({
 });
 const vision = require('@google-cloud/vision');
 const db = require('./models');
+const crawlerRoutes = require('./routes/crawler');
 
 const bucket = storage.bucket('compx241-pip');
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
+app.use('/crawler', crawlerRoutes);
 
 app.get('/login', async (req, res, next) => {
   try {
