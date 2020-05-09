@@ -5,8 +5,12 @@ const categoriesSchema = new mongoose.Schema({
         type: String,
     },
     subCategories: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Categories',
+        type: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Categories',
+            }
+        ]
     } 
 })
 
