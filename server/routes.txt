@@ -1,0 +1,19 @@
+// What we need
+
+The logo identification and showing of the data
+
+The identification of the products
+
+Login/Register
+
+Middleware for being logged in
+
+History of what the users have seen
+
+browse the companies possibily
+
+// They do not need to change or update the data in the database, do not give access for that
+
+// Might look into having an admin panel that can handle the other stuff
+
+// Error checking
