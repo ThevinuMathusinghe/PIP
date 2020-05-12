@@ -50,9 +50,6 @@ const logoSchema = new mongoose.Schema({
     website: {
         type:String,
     },
-    companyFounded: {
-        type: String,
-    },
     reviews: {
         type: [
             {
