@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(MyApp());
+void main() => runApp(`MyApp`());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -40,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<String> printOut = new List<String>();
-  final String nodeEndPoint = 'http://192.168.56.1:3000/image';
+  final String nodeEndPoint = 'http://192.168.56.1:3000/logo/identify';
 
   void newTest() async {
     try {
@@ -70,27 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (err) {
       print(err);
     }
-  }
-
-  void test() async {
-    printOut = new List<String>();
-    final File imageFile =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
-    final FirebaseVisionImage visionImage =
-        FirebaseVisionImage.fromFile(imageFile);
-    final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
-    final List<ImageLabel> labels = await labeler.processImage(visionImage);
-    for (ImageLabel label in labels) {
-      final String text = label.text;
-      final String entityId = label.entityId;
-      final double confidence = label.confidence;
-      print(entityId);
-      setState(() {
-        printOut.add(text);
-      });
-    }
-
-    labeler.close();
   }
 
   @override
