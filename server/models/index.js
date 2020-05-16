@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
-const databaseUrl = 'mongodb://localhost:27017/pip';
+const databaseUrl = process.env.DATABASE_URL || 'mongodb://localhost:27017/pip';
 mongoose
   .connect(databaseUrl, {
     useNewUrlParser: true,
