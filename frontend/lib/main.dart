@@ -40,7 +40,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<String> printOut = new List<String>();
-  final String nodeEndPoint = 'http://192.168.56.1:3000/logo/identify';
+  final String nodeEndPoint =
+      'https://limitless-meadow-18984.herokuapp.com/logo/identify';
 
   void newTest() async {
     try {
