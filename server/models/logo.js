@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const logoSchema = new mongoose.Schema({
   title: {
@@ -13,12 +13,12 @@ const logoSchema = new mongoose.Schema({
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Information",
+        ref: 'Information',
       },
     ],
   },
   revenue: {
-    type: Number,
+    type: String,
   },
   address: {
     type: String,
@@ -49,4 +49,4 @@ const logoSchema = new mongoose.Schema({
   // },
 });
 
-module.exports = mongoose.model("Logos", logoSchema);
+module.exports = mongoose.model('Logos', logoSchema);
