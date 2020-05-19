@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:frontend/screen/homePage.dart';
 import 'package:frontend/screen/login.dart';
 import 'package:frontend/screen/register.dart';
 import 'dart:io';
@@ -18,7 +19,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        routes: {'/': (ctx) => Register(), '/login': (ctx) => Login()});
+        initialRoute: '/',
+        routes:{
+          '/': (context) => homePage(),
+          '/login':(context)=> Login(),
+          '/register': (context)=> Register(),
+        }
+        //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
+      );  //routes: {'/': (ctx) => homePage(), '/register': (ctx) => Register()});
   }
 }
 
