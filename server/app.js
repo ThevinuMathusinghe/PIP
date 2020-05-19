@@ -34,6 +34,6 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log('the server has started');
 });
