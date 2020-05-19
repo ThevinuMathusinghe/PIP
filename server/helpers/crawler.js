@@ -106,16 +106,11 @@ exports.getCompanyData = async (req, res, next) => {
 
     const browser = await puppeteer.launch({ headless: false });
 
-    let companyData = [];
     let count = 0;
 
     const interval = setInterval(async () => {
-      console.log(count);
-      if (count >= 2) {
-        clearInterval(interval);
-        // browser.close();
-        next();
-      } else {
+      const pages = await browser.pages();
+      if (pages.length <= 2) {
         for (let i = count * 5; i < count * 5 + 5; i++) {
           (async () => {
             try {
@@ -286,7 +281,7 @@ exports.getCompanyData = async (req, res, next) => {
         }
         count += 1;
       }
-    }, 4000);
+    }, 1000);
   } catch (err) {
     console.log(err);
   }
