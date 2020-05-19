@@ -48,7 +48,7 @@ exports.getCompanyLinks = async (req, res, next) => {
     let count = 0;
     const interval = setInterval(() => {
       console.log(count);
-      if (count >= 5) {
+      if (count >= (links.length/5)+5) {
         // Write to a text file
         fs.writeFileSync(
           path.join(__dirname, './links/companyLinks.txt'),
