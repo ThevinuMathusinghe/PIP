@@ -9,8 +9,15 @@ class Login extends StatefulWidget {
   
 }
 
+
+class _Login extends State<Login> {
+  String email;
+  String password;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
 Future<String> attemptLogIn(String email, String password) async{
-var res = await http.post("https://limitless-meadow-18984.herokuapp.com",
+var res = await http.post("https://limitless-meadow-18984.herokuapp.com/user/login",
 body: {
   "email": email,
   "password": password
@@ -20,18 +27,13 @@ if(res.statusCode == 200) return res.body;
 return null;
 }
 
-class _Login extends State<Login> {
-  String email;
-  String password;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
+        child: SingleChildScrollView(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -75,25 +77,31 @@ class _Login extends State<Login> {
           
           Padding(
             padding: EdgeInsets.symmetric(vertical: height * .1),
-            child: RaisedButton(
-              child: Text(
-                'Login',
-                style: TextStyle(color: Colors.white),
-              ),
+            child: RaisedButton(             
               color: Colors.lightBlueAccent,
               onPressed: () async {
+                SharedPreferences myPrefs = await SharedPreferences.getInstance();               
                 email = _emailController.text;
                 password = _passwordController.text;
                 var jwt = await attemptLogIn(email, password);
                 if(jwt != null){
-                  //storage.write(key: "jwt", value: jwt);
+                  myPrefs.setString("jwt", jwt);
+                  //Navigator.of(context).pushNamed("/login");
                 }
-                // Navigator.of(context).pushNamed("/login");
-              },
+                else{
+                  return("No account was found that matches that email and password");
+                }                
+              },  
+              child: Text(
+                'Login',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           )
         ],
-      )),
+        )
+      )
+      ),
     );
   }
 }
