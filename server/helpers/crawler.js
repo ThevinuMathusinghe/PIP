@@ -119,7 +119,7 @@ exports.getCompanyData = async (req, res, next) => {
 
     const browser = await puppeteer.launch({ headless: false });
 
-    let count = 0;
+    let count = 396;
 
     const interval = setInterval(async () => {
       const pages = await browser.pages();
@@ -299,3 +299,4 @@ exports.getCompanyData = async (req, res, next) => {
     console.log(err);
   }
 };
+
