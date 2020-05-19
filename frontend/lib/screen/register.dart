@@ -16,13 +16,11 @@ class _Register extends State<Register> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Container(height: MediaQuery.of(context).padding.top),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: TextField(
