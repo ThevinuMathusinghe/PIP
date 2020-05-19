@@ -22,12 +22,14 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes:{
           '/': (context) => homePage(),
-          '/login':(context)=> Login(),
-          '/register': (context)=> Register(),
+          '/second':(context)=> Login(),
+          //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
-      );  //routes: {'/': (ctx) => homePage(), '/register': (ctx) => Register()});
-  }
+        //routes: {'/': (ctx) => homePage(), '/register': (ctx) => Register()});
+      //); 
+    );
+  
 }
 
 // class MyHomePage extends StatefulWidget {
@@ -97,3 +99,4 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+}
