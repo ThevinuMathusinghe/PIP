@@ -20,7 +20,7 @@ class _HomePage extends State<HomePage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 16.0),
             child: RaisedButton(
-              child: Text('Loginn'),
+              child: Text('Login'),
               onPressed: () {
                 Navigator.pushNamed(context, '/second');
               },
@@ -28,8 +28,8 @@ class _HomePage extends State<HomePage> {
           ),
           new Image.asset(
             'assets/image.jpg',
-            width: width * 0.4,
-            height: height * 0.4,
+            width: 16.0,
+            height: 15.0,
           )
         ])));
   }
