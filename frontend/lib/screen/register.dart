@@ -102,7 +102,7 @@ class _Register extends State<Register> {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                // Navigator.of(context).pushNamed("/login");
+                //Navigator.of(context).pushNamed("/homepage");
               },
             ),
           )
