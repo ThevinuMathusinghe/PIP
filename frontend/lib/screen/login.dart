@@ -97,29 +97,29 @@ class _Login extends State<Login> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: height * .1),
-            child: RaisedButton(
-              color: Colors.blue,
-              onPressed: () async {
-                facebookLogin.logIn(['email','public_profile'])
-                .then((result){
-                  switch(result.status){
-                    //case FacebookLoginStatus.loggedIn:
-                    //SharedPreferences prefs = await SharedPreferences.getInstance();
+          // Padding(
+          //   padding: EdgeInsets.symmetric(vertical: height * .1),
+          //   child: RaisedButton(
+          //     color: Colors.blue,
+          //     onPressed: () async {
+          //       facebookLogin.logIn(['email','public_profile'])
+          //       .then((result){
+          //         switch(result.status){
+          //           //case FacebookLoginStatus.loggedIn:
+          //           //SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                  }
-                }).catchError((e){
-                  print(e);
-                }
-                );
-              },
-              child: Text(
-                'Login with Facebook',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          )
+          //         }
+          //       }).catchError((e){
+          //         print(e);
+          //       }
+          //       );
+          //     },
+          //     child: Text(
+          //       'Login with Facebook',
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //   ),
+          // )
         ],
       )
       )
