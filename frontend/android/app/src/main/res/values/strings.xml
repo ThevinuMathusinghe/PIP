@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-</resources>
-    <string name="app_name">PIP</string>
+<resources>
+    <string name="app_name">personal.information.purchasing</string>
 
     <string name="facebook_app_id">3058628554205891</string>
 
