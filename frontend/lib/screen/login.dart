@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class Login extends StatefulWidget {
 class _Login extends State<Login> {
   String email;
   String password;
+  FacebookLogin facebookLogin = new FacebookLogin();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -27,6 +29,7 @@ class _Login extends State<Login> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: Center(
           child: SingleChildScrollView(
               child: Column(
@@ -93,9 +96,34 @@ class _Login extends State<Login> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: height * .1),
+            child: RaisedButton(
+              color: Colors.blue,
+              onPressed: () async {
+                facebookLogin.logIn(['email','public_profile'])
+                .then((result){
+                  switch(result.status){
+                    //case FacebookLoginStatus.loggedIn:
+                    //SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                  }
+                }).catchError((e){
+                  print(e);
+                }
+                );
+              },
+              child: Text(
+                'Login with Facebook',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           )
         ],
-      ))),
+      )
+      )
+      ),
     );
   }
 }
