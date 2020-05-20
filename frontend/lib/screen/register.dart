@@ -16,7 +16,9 @@ class _Register extends State<Register> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: Center(
+          child: SingleChildScrollView(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -107,7 +109,9 @@ class _Register extends State<Register> {
             ),
           )
         ],
-      )),
+      )
+      ),
+      ),
     );
   }
 }
