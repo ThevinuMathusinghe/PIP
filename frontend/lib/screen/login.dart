@@ -12,8 +12,35 @@ class _Login extends State<Login> {
   String email;
   String password;
   FacebookLogin facebookLogin = new FacebookLogin();
+  bool isLoggedIn = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void onLoginStatusChanged(bool isLoggedIn){
+    setState((){
+      this.isLoggedIn = isLoggedIn;
+    }
+    );
+  }
+
+  void initiateFacebookLogin() async{
+    var fbLogin = FacebookLogin();
+    var fbLoginResult = await facebookLogin.logIn(['email']);
+    switch(fbLoginResult.status){
+      case FacebookLoginStatus.error:
+      print("Error logging in");
+      onLoginStatusChanged(false);
+      break;
+      case FacebookLoginStatus.cancelledByUser:
+      print("Cancelled by User");
+      onLoginStatusChanged(false);
+      break;
+      case FacebookLoginStatus.loggedIn:
+      print("Login Successfull");
+      onLoginStatusChanged(true);
+      break;
+    }
+  }
 
   Future<String> attemptLogIn(String email, String password) async {
     var res = await http.post(
@@ -97,29 +124,15 @@ class _Login extends State<Login> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(vertical: height * .1),
-          //   child: RaisedButton(
-          //     color: Colors.blue,
-          //     onPressed: () async {
-          //       facebookLogin.logIn(['email','public_profile'])
-          //       .then((result){
-          //         switch(result.status){
-          //           //case FacebookLoginStatus.loggedIn:
-          //           //SharedPreferences prefs = await SharedPreferences.getInstance();
-
-          //         }
-          //       }).catchError((e){
-          //         print(e);
-          //       }
-          //       );
-          //     },
-          //     child: Text(
-          //       'Login with Facebook',
-          //       style: TextStyle(color: Colors.white),
-          //     ),
-          //   ),
-          // )
+          Container(
+            child: Center(child: isLoggedIn
+            ? Text("Logged In"):
+            RaisedButton(
+              child: Text("Login with Facebook"),
+              onPressed: ()=> initiateFacebookLogin(),
+              )
+            )
+            )
         ],
       )
       )
