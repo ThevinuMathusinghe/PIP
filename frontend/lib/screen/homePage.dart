@@ -12,25 +12,43 @@ class _HomePage extends State<HomePage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.grey[300],
         body: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
           Container(height: MediaQuery.of(context).padding.top),
+          
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 16.0),
+            padding: const EdgeInsets.all(8.0),
+            child: new Image.asset(
+              'assets/image.jpg',
+              width: width*0.7,
+              height: height*0.7,
+            ),
+          ),
+          
+          
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: height * .1),
             child: RaisedButton(
               child: Text('Login'),
               onPressed: () {
-                Navigator.pushNamed(context, '/second');
+                Navigator.pushNamed(context, '/secondLogin');
               },
             ),
           ),
-          new Image.asset(
-            'assets/image.jpg',
-            width: 16.0,
-            height: 15.0,
-          )
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: height * .8),
+            child: RaisedButton(
+              child: Text('Register'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/secondRegister');
+              },
+            ),
+          ),
+
+          
         ])));
   }
 }
