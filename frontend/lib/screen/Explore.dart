@@ -6,6 +6,28 @@ class Explore extends StatelessWidget{
   @override
   Widget build(BuildContext context){
 
+    void camera() async{
+      try{
+        var camera = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+        );
+      }
+      catch(err){
+
+      }
+    }
+
+    void gallery() async{
+      try{
+        var gallery = await ImagePicker.pickImage(
+          source: ImageSource.gallery,
+        );
+      }
+      catch(err){
+
+      }
+    }
+
     Future<void> _optionsDialogBox(){
       return showDialog(context: context,
       builder: (BuildContext context){
@@ -13,15 +35,18 @@ class Explore extends StatelessWidget{
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                GestureDetector(
+                RaisedButton(
                   child: new Text('Capture your logo'),
-                  //onTap: openCamera,
-                  )
+                  onPressed: camera,
+                  ),
+                
               ]
             )
-          ))
+          )
+          );
       }
-      )
+      );
+      
     }
     
     return MaterialApp(    
@@ -31,16 +56,28 @@ class Explore extends StatelessWidget{
           children: <Widget>[
           new Row(
             children: <Widget>[
-              new Expanded(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
                 child: RaisedButton(
                   child: Text(
                     'Logo',
                     style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.lightBlueAccent,
-                    //onPressed: ,
+                    onPressed: camera,           
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                child: RaisedButton(
+                  child: Text(
+                    'Product',
+                    style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    onPressed: gallery,           
+                ),
                 
-                )
               )
             ]
           )
