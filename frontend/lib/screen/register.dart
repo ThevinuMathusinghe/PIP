@@ -138,9 +138,10 @@ class _Register extends State<Register> {
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.lightBlueAccent,
-              onPressed:register
-                //Navigator.of(context).pushNamed("/homepage");
-              
+              onPressed:(){
+              register();
+              Navigator.of(context).pushNamed("/thirdExplore");
+              }
             ),
           )
         ],

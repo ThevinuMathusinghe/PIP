@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:frontend/screen/Explore.dart';
 import 'package:frontend/screen/homePage.dart';
 import 'package:frontend/screen/login.dart';
 import 'package:frontend/screen/register.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => HomePage(),
           '/secondLogin':(context)=> Login(),
           '/secondRegister' :(context)=> Register(),
+          '/thirdExplore':(context)=> Explore(),
           //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
