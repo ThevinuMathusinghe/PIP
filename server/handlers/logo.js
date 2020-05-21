@@ -16,22 +16,30 @@ exports.identify = async (req, res, next) => {
     // Once there get the url and run through the google cloud vision api
     const client = new vision.ImageAnnotatorClient();
     const [result] = await client.logoDetection(`./${name}`);
+    console.log(result);
     const logos = result.logoAnnotations;
     let foundLogos = [];
     logos.forEach((logo) => {
       foundLogos.push(logo.description);
     });
 
-    res.send({ logos: foundLogos });
+    let foundLogoRegex = [];
+    // Search the database for matches
+    foundLogos.forEach((logo) => {
+      foundLogoRegex.push(new RegExp(escapeRegex(logo), 'gi'));
+    });
+
+    const logo = await db.Logo.find({ title: foundLogoRegex }).populate(
+      'information'
+    );
+
+    // Return the matched data
+    res.json({ logo });
   } catch (err) {
     next({ message: 'Something went wrong, try again later' });
   }
 };
 
-exports.singleLogo = async (req, res, next) => {
-  try {
-    // Get a single logo
-  } catch (err) {
-    next({ message: 'Something went wrong, please try again later' });
-  }
+const escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 };
