@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/error.dart';
+import 'package:frontend/widgets/loading.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -6,23 +11,69 @@ class Register extends StatefulWidget {
 }
 
 class _Register extends State<Register> {
-  String email;
-  String firstName;
-  String surname;
-  String password;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  bool loading = false;
+  String errorMessage = "";
+
+  void register() async{
+    try{
+      setState(() {
+        loading = true;
+      });
+
+      var res = await http.post("https://limitless-meadow-18984.herokuapp.com/user/register", 
+      body: {
+        'firstName':_firstNameController.text,
+        'lastName':_lastNameController.text,
+        'email':_emailController.text,
+        'password':_passwordController.text,
+      });
+
+      var response = json.decode(res.body);
+
+      if(response['error']!=null){
+        setState(() {
+          errorMessage= response['error']['message'];
+        });
+      }
+      if(response['token']!=null){
+        SharedPreferences myPrefs = await SharedPreferences.getInstance();
+        myPrefs.setString('jwt', response['token']);
+        setState(() {
+          errorMessage="";
+        });
+      }
+      setState(() {
+        loading = false;
+      });
+
+    }
+    catch(err){
+      setState(() {
+        errorMessage = err;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    if(loading){
+      return Loading();
+    }
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Center(
           child: SingleChildScrollView(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
+        children: <Widget>[        
           Container(height: MediaQuery.of(context).padding.top),
+          ErrorMessage(errorMessage: errorMessage),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: TextField(
@@ -34,11 +85,7 @@ class _Register extends State<Register> {
                 ),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                setState(() {
-                  firstName = value;
-                });
-              },
+              controller: _firstNameController,
             ),
           ),
           Padding(
@@ -52,11 +99,7 @@ class _Register extends State<Register> {
                 ),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                setState(() {
-                  surname = value;
-                });
-              },
+              controller: _lastNameController,             
             ),
           ),
           Padding(
@@ -70,11 +113,7 @@ class _Register extends State<Register> {
                 ),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
+              controller: _emailController,
             ),
           ),
           Padding(
@@ -88,11 +127,7 @@ class _Register extends State<Register> {
                 ),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
+              controller: _passwordController,
             ),
           ),
           Padding(
@@ -103,9 +138,9 @@ class _Register extends State<Register> {
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.lightBlueAccent,
-              onPressed: () {
+              onPressed:register
                 //Navigator.of(context).pushNamed("/homepage");
-              },
+              
             ),
           )
         ],

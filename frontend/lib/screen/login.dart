@@ -12,8 +12,6 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
-  String email;
-  String password;
   FacebookLogin facebookLogin = new FacebookLogin();
   bool isLoggedIn = false;
   final TextEditingController _emailController = TextEditingController();
