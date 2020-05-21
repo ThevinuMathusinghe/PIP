@@ -128,11 +128,15 @@ class _Login extends State<Login> {
             padding: EdgeInsets.symmetric(vertical: height * .1),
             child: RaisedButton(
               color: Colors.lightBlueAccent,
-              onPressed: login,
               child: Text(
                 'Login',
                 style: TextStyle(color: Colors.white),
               ),
+              onPressed:(){
+              login();
+              Navigator.of(context).pushNamed("/thirdExplore");
+              }
+              
             ),
           ),
           Container(
