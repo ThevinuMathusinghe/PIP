@@ -50,21 +50,38 @@ class _explore extends State<Explore> {
     }
   }
 
-  /* void gallery() async{
-      try{
-        var gallery = await ImagePicker.pickImage(
-          source: ImageSource.gallery,
-        );
-        this.setState(() {
-          imageFile = gallery;
+  void gallery() async {
+    try {
+      var gallery = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+      this.setState(() {
+        imageFile = gallery;
+      });
+
+      if (imageFile == null) return;
+      String base64Image = base64Encode(imageFile.readAsBytesSync());
+      String fileName = imageFile.path.split("/").last;
+      List<String> printOut = new List<String>();
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/logo/identify",
+          body: {
+            "image": base64Image,
+            "name": fileName,
+          });
+      var response = await json.decode(res.body);
+      if (response['error'] != null) {
+        setState(() {
+          errorMessage = response['error']['message'];
         });
       }
-      catch (err) {
+      print(response);
+    } catch (err) {
       setState(() {
         errorMessage = err;
       });
     }
-    } */
+  }
 
   Future<void> _showChoiceDialog(BuildContext context) {
     return showDialog(
@@ -77,7 +94,7 @@ class _explore extends State<Explore> {
                 GestureDetector(
                     child: Text('Gallery'),
                     onTap: () {
-                      //gallery();
+                      gallery();
                     }),
                 GestureDetector(
                   child: Text('Camera'),
@@ -102,14 +119,14 @@ class _explore extends State<Explore> {
                     padding:
                         EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
                     child: RaisedButton(
+                      onPressed: () {
+                        _showChoiceDialog(context);
+                      },
                       child: Text(
                         'Logo',
                         style: TextStyle(color: Colors.white),
                       ),
                       color: Colors.lightBlueAccent,
-                      onPressed: () {
-                        _showChoiceDialog(context);
-                      },
                     ),
                   ),
                   Padding(
