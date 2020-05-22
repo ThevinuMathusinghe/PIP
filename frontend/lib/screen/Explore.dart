@@ -89,7 +89,7 @@ class _explore extends State<Explore>{
                 GestureDetector(
                   child:  Text('Gallery'),
                   onTap: (){
-                    gallery();
+                    //gallery();
                   } 
                 ),
                 GestureDetector(
