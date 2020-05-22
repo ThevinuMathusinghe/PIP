@@ -1,3 +1,17 @@
+let links = document.querySelectorAll("li span a");
+let linksArray = Array.from(links);
+var linkClassArray = [];
+
+for (var i = 3; i < 35; i++) {
+  linkClassArray.push(linksArray[i].href);
+}
+console.log(linkClassArray);
+
+
+
+
+
+
 //Title
 var title = document.querySelectorAll("h1")[0].innerText;
 console.log(title);
@@ -124,3 +138,4 @@ for (var i = 0; i < linksArray.length; i++) {
 }
 
 console.log(linksData);
+}
