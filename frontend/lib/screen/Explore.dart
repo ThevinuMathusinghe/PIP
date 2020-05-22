@@ -62,7 +62,7 @@ class _explore extends State<Explore>{
     } 
     
 
-    void gallery() async{
+    /* void gallery() async{
       try{
         var gallery = await ImagePicker.pickImage(
           source: ImageSource.gallery,
@@ -76,7 +76,7 @@ class _explore extends State<Explore>{
         errorMessage = err;
       });
     }
-    }
+    } */
 
     Future<void> _showChoiceDialog(BuildContext context){
       return showDialog(context: context,
