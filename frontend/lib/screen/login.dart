@@ -18,6 +18,7 @@ class _Login extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   bool loading = false;
   String errorMessage = "";
+  bool _showPassword = false;
 
   void onLoginStatusChanged(bool isLoggedIn) {
     setState(() {
@@ -84,7 +85,7 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool _showPassword = false;
+    
     if (loading) {
       return Loading();
     }
@@ -105,7 +106,7 @@ class _Login extends State<Login> {
                 prefixIcon: Icon(Icons.person),
                 labelText: 'Email',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -113,17 +114,27 @@ class _Login extends State<Login> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-            child: TextField(
-              obscureText: true,
+            child: TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
+                prefixIcon: Icon(Icons.lock), 
                 labelText: 'Password',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                suffixIcon: GestureDetector(
+                  onTap: (){
+                    setState(() {  
+                      _showPassword=!_showPassword;                
+                    });
+                  },
+                  child: Icon(
+                  _showPassword ? Icons.visibility:Icons.visibility_off,
+                ),
+                ),
+                  enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
+              obscureText: !_showPassword,
             ),
           ),
           Padding(
@@ -134,6 +145,7 @@ class _Login extends State<Login> {
                 'Login',
                 style: TextStyle(color: Colors.white),
               ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               onPressed:(){
               login();
               Navigator.of(context).pushNamed("/thirdExplore");
@@ -141,12 +153,16 @@ class _Login extends State<Login> {
               
             ),
           ),
-          Container(
+          Container(     
               child: Center(
                   child: isLoggedIn
                       ? Text("Logged In")
                       : RaisedButton(
-                          child: Text("Login with Facebook"),
+                        color: Colors.blue,
+                          child: Text(
+                            'Login with Facebook',
+                          style: TextStyle(color: Colors.white),
+                          ),
                           onPressed: () => initiateFacebookLogin(),
                         )))
         ],
