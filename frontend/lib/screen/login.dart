@@ -113,6 +113,7 @@ class _Login extends State<Login> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: TextField(
+              obscureText: true,
               controller: _passwordController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.person),
