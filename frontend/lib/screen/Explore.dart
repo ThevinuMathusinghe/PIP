@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:frontend/widgets/error.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/widgets/loading.dart';
 
 class Explore extends StatefulWidget {
   @override
@@ -107,40 +108,58 @@ class _explore extends State<Explore> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
+    double width = MediaQuery.of(context).size.width;
+    double exploreHeight = MediaQuery.of(context).size.height; 
     return Scaffold(
         body: new Container(
+            padding: EdgeInsets.only(top: exploreHeight*0.2),
             color: Colors.blueAccent,
             child: new Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                new Row(children: <Widget>[
+                //Container(height: MediaQuery.of(context).padding.top),
+                new Column(children: <Widget>[
                   ErrorMessage(errorMessage: errorMessage),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        _showChoiceDialog(context);
-                      },
-                      child: Text(
-                        'Logo',
-                        style: TextStyle(color: Colors.white),
+                  ButtonTheme(                  
+                      minWidth: width*0.85,
+                      height: exploreHeight*0.20,
+                    child: Padding(
+                      padding: EdgeInsets.all(width*0.05),
+                      child: RaisedButton(
+                        onPressed: () {
+                          _showChoiceDialog(context);
+                        },
+                        child: Align(alignment: Alignment.topLeft, 
+                          child: Text(
+                            'Logo',
+                            style: TextStyle(color: Colors.white),
+                                                  
+                          ),
+                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        color: Colors.lightBlueAccent,    
                       ),
-                      color: Colors.lightBlueAccent,
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        _showChoiceDialog(context);
-                      },
-                      child: Text(
-                        'Product',
-                        style: TextStyle(color: Colors.white),
+                  ButtonTheme(
+                    minWidth: width*0.85,
+                      height: exploreHeight*0.20,
+                    child: Padding(
+                      padding: EdgeInsets.all(width*0.05),
+                      child: RaisedButton(
+                        onPressed: () {
+                          _showChoiceDialog(context);
+                        },
+                        child: Align(alignment: Alignment.topLeft,
+                          child: Text(
+                            'Product',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        color: Colors.lightBlueAccent,
                       ),
-                      color: Colors.lightBlueAccent,
                     ),
                   )
                 ])

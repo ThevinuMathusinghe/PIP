@@ -17,6 +17,7 @@ class _Register extends State<Register> {
   final TextEditingController _lastNameController = TextEditingController();
   bool loading = false;
   String errorMessage = "";
+  bool _showPassword = false;
 
   void register() async{
     try{
@@ -62,7 +63,6 @@ class _Register extends State<Register> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    bool _showPassword = false;
     if(loading){
       return Loading();
     }
@@ -82,7 +82,7 @@ class _Register extends State<Register> {
                 prefixIcon: Icon(Icons.person),
                 labelText: 'First Name',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -96,7 +96,7 @@ class _Register extends State<Register> {
                 prefixIcon: Icon(Icons.person),
                 labelText: 'Surname',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -110,7 +110,7 @@ class _Register extends State<Register> {
                 prefixIcon: Icon(Icons.email),
                 labelText: 'Email',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -119,7 +119,7 @@ class _Register extends State<Register> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-            child: TextField(
+            child: TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock), 
@@ -135,7 +135,7 @@ class _Register extends State<Register> {
                 ),
                 ),
                   enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[300]),
+                  borderSide: BorderSide(color: Colors.black26),
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -150,6 +150,8 @@ class _Register extends State<Register> {
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.lightBlueAccent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
               onPressed:(){
               register();
               Navigator.of(context).pushNamed("/thirdExplore");
