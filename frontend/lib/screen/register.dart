@@ -62,6 +62,7 @@ class _Register extends State<Register> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    bool _showPassword = false;
     if(loading){
       return Loading();
     }
@@ -119,15 +120,25 @@ class _Register extends State<Register> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: TextField(
+              controller: _passwordController,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: Icon(Icons.lock), 
                 labelText: 'Password',
-                enabledBorder: OutlineInputBorder(
+                suffixIcon: GestureDetector(
+                  onTap: (){
+                    setState(() {                    
+                    });
+                  },
+                  child: Icon(
+                  _showPassword ? Icons.visibility:Icons.visibility_off,
+                ),
+                ),
+                  enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey[300]),
                 ),
                 border: OutlineInputBorder(),
               ),
-              controller: _passwordController,
+              obscureText: !_showPassword,
             ),
           ),
           Padding(
