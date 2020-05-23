@@ -126,7 +126,8 @@ class _Register extends State<Register> {
                 labelText: 'Password',
                 suffixIcon: GestureDetector(
                   onTap: (){
-                    setState(() {                    
+                    setState(() {  
+                      _showPassword=!_showPassword;                
                     });
                   },
                   child: Icon(
