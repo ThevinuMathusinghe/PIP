@@ -7,10 +7,32 @@ for (var i = 3; i < 35; i++) {
 }
 console.log(linkClassArray);
 
+let links = document.querySelectorAll("div.a-text-center li.a-last");
+let linksArray = Array.from(links);
+var linkClassArray = [];
+var linksData = [];
+for (var i = 0; i < linksArray.length; i++) {
+  var linksArray2 = Array.from(linksArray[i].childNodes);
+  for (var j = 0; j < linksArray2.length; j++) {
+    if (linksArray2[j].nodeName == "A") {
+      linksData.push(linksArray2[j].href);
+    }
+  }
+}
+console.log(linksData);
 
+// let links = document.querySelectorAll("div.pagnHy");
+// let linksArray = Array.from(links);
+// var linkClassArray = [];
 
+// var informationDetailsDataArray = [];
 
+// for (var i = 0; i < linkClassArray.length; i++) {
+//   var detailesChildNodeArray = Array.from( linkClassArray[i].childNodes );
+//   for (var j = 0; j < detailesChildNodeArray.length; j++) {
+//     informationDetailsDataArray.push(detailesChildNodeArray[j].className == "pagnLink");
 
+// console.log(informationDetailsDataArray);
 
 //Title
 var title = document.querySelectorAll("h1")[0].innerText;
@@ -138,4 +160,3 @@ for (var i = 0; i < linksArray.length; i++) {
 }
 
 console.log(linksData);
-}
