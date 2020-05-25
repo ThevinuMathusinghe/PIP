@@ -12,7 +12,9 @@ class ErrorMessage extends StatelessWidget {
     return errorMessage != ""
         ? Container(
             margin: EdgeInsets.symmetric(horizontal: width * .08),
-            child: Text(errorMessage, style: TextStyle(color: Colors.red)))
+            child: Text(errorMessage, style: TextStyle(color: Colors.red),
+            textAlign: TextAlign.center,
+            ))
         : Container();
   }
 }
