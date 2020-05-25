@@ -121,7 +121,7 @@ class _Login extends State<Login> {
                 child: ListView(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: height * .06),
+                      margin: EdgeInsets.only(top: height * .05),
                       child: ErrorMessage(errorMessage: errorMessage),
                     ),
                     Container(
