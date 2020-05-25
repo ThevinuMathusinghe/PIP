@@ -18,23 +18,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          backgroundColor: Colors.grey[200],
-        ),
+            primarySwatch: Colors.blue,
+            backgroundColor: Colors.grey[200],
+            accentColor: Color.fromRGBO(149, 222, 218, 1),
+            canvasColor: Color.fromRGBO(71, 186, 181, 1),
+            cursorColor: Color.fromRGBO(248, 247, 247, 1),
+            dividerColor: Color.fromRGBO(170, 170, 170, 1)),
         initialRoute: '/',
-        routes:{
+        routes: {
           '/': (context) => HomePage(),
-          '/secondLogin':(context)=> Login(),
-          '/secondRegister' :(context)=> Register(),
-          '/thirdExplore':(context)=> Explore(),
+          '/secondLogin': (context) => Login(),
+          '/secondRegister': (context) => Register(),
+          '/thirdExplore': (context) => Explore(),
           //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
         //routes: {'/': (ctx) => homePage(), '/register': (ctx) => Register()});
-      //); 
-    );
-  
-}
+        //);
+        );
+  }
 
 // class MyHomePage extends StatefulWidget {
 //   MyHomePage({this.title});
