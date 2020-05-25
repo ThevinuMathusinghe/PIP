@@ -85,6 +85,9 @@ class _explore extends State<Explore> {
   }
 
   Future<void> _showChoiceDialog(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -97,11 +100,14 @@ class _explore extends State<Explore> {
                     onTap: () {
                       gallery();
                     }),
-                GestureDetector(
-                  child: Text('Camera'),
-                  onTap: () {
-                    camera();
-                  },
+                Padding(
+                  padding: EdgeInsets.only(bottom: height*0.001),
+                  child: GestureDetector(
+                    child: Text('Camera'),
+                    onTap: () {
+                      camera();
+                    },
+                  ),
                 )
               ])));
         });
