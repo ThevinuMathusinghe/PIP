@@ -3,6 +3,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:frontend/screen/Explore.dart';
 import 'package:frontend/screen/homePage.dart';
 import 'package:frontend/screen/login.dart';
+import 'package:frontend/screen/logoDisplay.dart';
 import 'package:frontend/screen/register.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           '/secondLogin': (context) => Login(),
           '/secondRegister': (context) => Register(),
           '/thirdExplore': (context) => Explore(),
+          '/fourthLogo': (context) => logoDisplay(),
           //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
