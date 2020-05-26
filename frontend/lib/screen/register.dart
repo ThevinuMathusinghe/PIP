@@ -100,7 +100,7 @@ class _Register extends State<Register> {
                 child: ListView(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: height * 0.001),
+                      margin: EdgeInsets.only(top: height * 0.0001),
                       child: ErrorMessage(errorMessage: errorMessage),
                     ),
                     Container(

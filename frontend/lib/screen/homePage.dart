@@ -7,11 +7,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
+  
     @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -23,7 +19,7 @@ class _HomePage extends State<HomePage> {
         Stack(
           children: <Widget>[
             Container(
-                height: height * .15,
+                height: height * .50,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
                   Theme.of(context).accentColor,
@@ -32,16 +28,16 @@ class _HomePage extends State<HomePage> {
                 child: Container(
                   padding: EdgeInsets.only(bottom: height * .02),
                   child: Center(
-                      child: Text("Login",
+                      child: Text("PIP",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 24,
+                              fontSize: 70,
                               fontWeight: FontWeight.bold))),
                 )),
             Container(
-                margin: EdgeInsets.only(top: height * .13),
+                margin: EdgeInsets.only(top: height * .4),
                 height:
-                    height - MediaQuery.of(context).padding.top - height * .13,
+                    height - MediaQuery.of(context).padding.top - height * .4,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -53,20 +49,9 @@ class _HomePage extends State<HomePage> {
                       margin: EdgeInsets.only(top: height * .05),
                       
                     ),
-                    Container(
-
-                        child: Text(
-                          "PIP",
-                          style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        )),
-                    
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed("/secondRegister");
+                        Navigator.of(context).pushNamed("/secondLogin");
                       },
                       child: Container(
                           margin: EdgeInsets.only(
@@ -186,5 +171,4 @@ class _HomePage extends State<HomePage> {
           ]),
         )); */
   }
-}
 }
