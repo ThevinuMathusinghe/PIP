@@ -51,35 +51,35 @@ class MyApp extends StatelessWidget {
 //   final String nodeEndPoint =
 //       'https://limitless-meadow-18984.herokuapp.com/logo/identify';
 
-//   void newTest() async {
-//     try {
-//       final File imageFile =
-//           await ImagePicker.pickImage(source: ImageSource.gallery);
-//       if (imageFile == null) return;
-//       String base64Image = base64Encode(imageFile.readAsBytesSync());
-//       String fileName = imageFile.path.split("/").last;
+/*   void newTest() async {
+    try {
+      final File imageFile =
+          await ImagePicker.pickImage(source: ImageSource.gallery);
+      if (imageFile == null) return;
+      String base64Image = base64Encode(imageFile.readAsBytesSync());
+      String fileName = imageFile.path.split("/").last;
 
-//       http.post(nodeEndPoint, body: {
-//         "image": base64Image,
-//         "name": fileName,
-//       }).then((res) async {
-//         var test = await json.decode(res.body);
-//         print(test['logos']);
-//         setState(() {
-//           printOut = test['logos']
-//               .map((logo) {
-//                 return logo;
-//               })
-//               .toList()
-//               .cast<String>();
-//         });
-//       }).catchError((err) {
-//         print(err);
-//       });
-//     } catch (err) {
-//       print(err);
-//     }
-//   }
+      http.post(nodeEndPoint, body: {
+        "image": base64Image,
+        "name": fileName,
+      }).then((res) async {
+        var test = await json.decode(res.body);
+        print(test['logos']);
+        setState(() {
+          printOut = test['logos']
+              .map((logo) {
+                return logo;
+              })
+              .toList()
+              .cast<String>();
+        });
+      }).catchError((err) {
+        print(err);
+      });
+    } catch (err) {
+      print(err);
+    }
+  } */
 
 //   @override
 //   Widget build(BuildContext context) {
