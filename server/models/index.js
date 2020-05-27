@@ -1,25 +1,27 @@
-const mongoose = require('mongoose');
-mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', false);
-const databaseUrl = process.env.DATABASE_URL || 'mongodb://localhost:27017/pip';
+const mongoose = require("mongoose");
+mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
+const databaseUrl = process.env.DATABASE_URL || "mongodb://localhost:27017/pip";
 mongoose
   .connect(databaseUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Connected');
+    console.log("Connected");
   })
   .catch((err) => {
     console.log(err);
   });
 
-module.exports.User = require('./user');
+module.exports.User = require("./user");
 
-module.exports.Information = require('./information');
+module.exports.Information = require("./information");
 
-module.exports.Logo = require('./logo');
+module.exports.Logo = require("./logo");
 
-module.exports.ReviewsCompany = require('./reviewscompany');
+module.exports.ReviewsCompany = require("./reviewscompany");
 
-module.exports.Categories = require('./categories');
+module.exports.Categories = require("./categories");
+
+module.exports.Book = require("./book");

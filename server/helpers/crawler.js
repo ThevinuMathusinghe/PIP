@@ -50,9 +50,9 @@ exports.getCompanyLinks = async (req, res, next) => {
       console.log(count);
       if (count >= links.length / 5 + 5) {
         var companyLinkNoDuplicates = [];
-        for(var i = 0; i < companyLinksFull.length; i++){
-          if(companyLinkNoDuplicates.indexOf(companyLinksFull[i]) == -1){
-            companyLinkNoDuplicates.push(companyLinksFull[i])
+        for (var i = 0; i < companyLinksFull.length; i++) {
+          if (companyLinkNoDuplicates.indexOf(companyLinksFull[i]) == -1) {
+            companyLinkNoDuplicates.push(companyLinksFull[i]);
           }
         }
         // Write to a text file
@@ -299,4 +299,3 @@ exports.getCompanyData = async (req, res, next) => {
     console.log(err);
   }
 };
-
