@@ -28,6 +28,10 @@ class _explore extends State<Explore> {
       });
 
       if (imageFile == null) return;
+      setState(() {
+        loading = true;
+      });
+
       String base64Image = base64Encode(imageFile.readAsBytesSync());
       String fileName = imageFile.path.split("/").last;
       List<String> printOut = new List<String>();
@@ -43,7 +47,11 @@ class _explore extends State<Explore> {
           errorMessage = response['error']['message'];
         });
       }
-      print(response);
+      setState(() {
+        loading = false;
+      });
+      Navigator.of(context)
+          .pushNamed('/fourthLogo', arguments: {'logo': response['logo']});
     } catch (err) {
       setState(() {
         errorMessage = err;

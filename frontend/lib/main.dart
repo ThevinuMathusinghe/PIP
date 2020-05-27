@@ -5,6 +5,7 @@ import 'package:frontend/screen/homePage.dart';
 import 'package:frontend/screen/login.dart';
 import 'package:frontend/screen/logoDisplay.dart';
 import 'package:frontend/screen/register.dart';
+import 'package:frontend/screen/singleLogo.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/secondRegister': (context) => Register(),
           '/thirdExplore': (context) => Explore(),
           '/fourthLogo': (context) => logoDisplay(),
+          '/fifthLogo': (context) => SingleLogo()
           //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
