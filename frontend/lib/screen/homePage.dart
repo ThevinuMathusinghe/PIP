@@ -7,12 +7,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  
-    @override
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
         body: ListView(
       children: <Widget>[
@@ -26,7 +25,7 @@ class _HomePage extends State<HomePage> {
                   Theme.of(context).canvasColor
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: Container(
-                  padding: EdgeInsets.only(bottom: height * .02),
+                  padding: EdgeInsets.only(bottom: height * .1),
                   child: Center(
                       child: Text("PIP",
                           style: TextStyle(
@@ -47,7 +46,6 @@ class _HomePage extends State<HomePage> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(top: height * .05),
-                      
                     ),
                     InkWell(
                       onTap: () {
@@ -124,7 +122,7 @@ class _HomePage extends State<HomePage> {
         )
       ],
     ));
-    
+
     /* return Scaffold(
         backgroundColor: Colors.grey[300],
         body: Center(

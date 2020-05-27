@@ -61,9 +61,11 @@ class _explore extends State<Explore> {
       });
 
       if (imageFile == null) return;
+      setState(() {
+        loading = true;
+      });
       String base64Image = base64Encode(imageFile.readAsBytesSync());
       String fileName = imageFile.path.split("/").last;
-      List<String> printOut = new List<String>();
       var res = await http.post(
           "https://limitless-meadow-18984.herokuapp.com/logo/identify",
           body: {
@@ -74,9 +76,15 @@ class _explore extends State<Explore> {
       if (response['error'] != null) {
         setState(() {
           errorMessage = response['error']['message'];
+          loading = false;
+          return;
         });
       }
-      print(response);
+      setState(() {
+        loading = false;
+      });
+      Navigator.of(context)
+          .pushNamed('/fourthLogo', arguments: {'logo': response['logo']});
     } catch (err) {
       setState(() {
         errorMessage = err;
@@ -87,33 +95,40 @@ class _explore extends State<Explore> {
   Future<void> _showChoiceDialog(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text("Make a choice",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-              ),),
+              title: Text(
+                "Make a choice",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                ),
+              ),
               content: SingleChildScrollView(
                   child: ListBody(children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: height*0.001),
-                  child: GestureDetector(                
-                      child: Text('Gallery',
-                      textAlign: TextAlign.center),
+                  padding: EdgeInsets.only(top: height * 0.001),
+                  child: GestureDetector(
+                      child: Text(
+                        'Gallery',
+                        textAlign: TextAlign.center,
+                      ),
                       onTap: () {
+                        Navigator.of(context).pop();
                         gallery();
                       }),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: height*0.01, top: height*0.03),
-                  child: GestureDetector(                
-                      child: Text('Camera',
+                  padding: EdgeInsets.only(
+                      bottom: height * 0.01, top: height * 0.03),
+                  child: GestureDetector(
+                    child: Text(
+                      'Camera',
                       textAlign: TextAlign.center,
-                      ),                   
+                    ),
                     onTap: () {
                       camera();
                     },
@@ -123,7 +138,7 @@ class _explore extends State<Explore> {
         });
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -171,44 +186,42 @@ class _explore extends State<Explore> {
                         _showChoiceDialog(context);
                       },
                       child: Container(
-                          margin: EdgeInsets.only(
-                              left: width * .08,
-                              right: width * .08,
-                              ),
-                          width: width * .84,
-                          height: height * .18,
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Theme.of(context).accentColor,
-                                    offset: Offset(0, 3),
-                                    blurRadius: 6)
-                              ],
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).accentColor,
-                                    Theme.of(context).canvasColor
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter)),
-                          
-                            child: Align(
-                            alignment: Alignment.topLeft, 
-                            child: Padding(
-                              padding: EdgeInsets.only(left: width*0.02, top: height*0.01),
-                              child: Text(
-                                "Logo",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                                ),
-                                
-                            ),
-                            
+                        margin: EdgeInsets.only(
+                          left: width * .08,
+                          right: width * .08,
+                        ),
+                        width: width * .84,
+                        height: height * .18,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Theme.of(context).accentColor,
+                                  offset: Offset(0, 3),
+                                  blurRadius: 6)
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                                colors: [
+                                  Theme.of(context).accentColor,
+                                  Theme.of(context).canvasColor
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter)),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: width * 0.02, top: height * 0.01),
+                            child: Text(
+                              "Logo",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
                             ),
                           ),
+                        ),
+                      ),
                     ),
                     InkWell(
                       onTap: () {
@@ -235,30 +248,27 @@ class _explore extends State<Explore> {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white),
                           child: Center(
-                            child: Align(
-                            alignment: Alignment.topLeft, 
-                            child: Padding(
-                              padding: EdgeInsets.only(left: width*0.02, top: height*0.01),
-                            child: Text(
-                              "Product",
-                              style: TextStyle(
-                                  color: Theme.of(context).dividerColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18),
-                            ),
-                            )
-                           )
-                         )
-                      ),
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: width * 0.02, top: height * 0.01),
+                                    child: Text(
+                                      "Product",
+                                      style: TextStyle(
+                                          color: Theme.of(context).dividerColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                  )))),
                     ),
                     InkWell(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: Container(
                           margin: EdgeInsets.only(
-                              left: width * .08,
-                              right: width * .08,
-                              ),
+                            left: width * .08,
+                            right: width * .08,
+                          ),
                           width: width * .84,
                           height: height * .19,
                           decoration: BoxDecoration(
@@ -277,20 +287,20 @@ class _explore extends State<Explore> {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter)),
                           child: Center(
-                            child: Align(
-                            alignment: Alignment.topLeft, 
+                              child: Align(
+                            alignment: Alignment.topLeft,
                             child: Padding(
-                              padding: EdgeInsets.only(left: width*0.02, top: height*0.01),
+                              padding: EdgeInsets.only(
+                                  left: width * 0.02, top: height * 0.01),
                               child: Text(
                                 "Saved",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
-                                ),
+                              ),
                             ),
-                            )
-                          )),
+                          ))),
                     ),
                   ],
                 ))
@@ -300,9 +310,7 @@ class _explore extends State<Explore> {
     ));
   }
 
-
-
- /*  @override
+  /*  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double exploreHeight = MediaQuery.of(context).size.height;

@@ -150,7 +150,7 @@ class _Login extends State<Login> {
                             margin: EdgeInsets.only(
                                 left: width * .02, right: width * .05),
                             child: Icon(
-                              Icons.person_outline,
+                              Icons.email,
                               color: Theme.of(context).dividerColor,
                             ),
                           ),

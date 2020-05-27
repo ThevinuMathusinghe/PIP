@@ -19,48 +19,47 @@ class _Register extends State<Register> {
   String errorMessage = "";
   bool _showPassword = false;
 
-  void register() async{
-    try{
+  void register() async {
+    try {
       setState(() {
         loading = true;
       });
 
-      var res = await http.post("https://limitless-meadow-18984.herokuapp.com/user/register", 
-      body: {
-        'firstName':_firstNameController.text,
-        'lastName':_lastNameController.text,
-        'email':_emailController.text,
-        'password':_passwordController.text,
-      });
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/user/register",
+          body: {
+            'firstName': _firstNameController.text,
+            'lastName': _lastNameController.text,
+            'email': _emailController.text,
+            'password': _passwordController.text,
+          });
 
       var response = json.decode(res.body);
 
-      if(response['error']!=null){
+      if (response['error'] != null) {
         setState(() {
-          errorMessage= response['error']['message'];
+          errorMessage = response['error']['message'];
         });
       }
-      if(response['token']!=null){
+      if (response['token'] != null) {
         SharedPreferences myPrefs = await SharedPreferences.getInstance();
         myPrefs.setString('jwt', response['token']);
         setState(() {
-          errorMessage="";
+          errorMessage = "";
         });
         Navigator.of(context).pushNamed("/thirdExplore");
       }
       setState(() {
         loading = false;
       });
-
-    }
-    catch(err){
+    } catch (err) {
       setState(() {
         errorMessage = err;
       });
     }
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -100,14 +99,11 @@ class _Register extends State<Register> {
                 child: ListView(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: height * 0.0001),
+                      margin: EdgeInsets.only(top: height * 0.06),
                       child: ErrorMessage(errorMessage: errorMessage),
                     ),
                     Container(
-                        margin: EdgeInsets.only(
-                            top: errorMessage != ""
-                                ? height * .07
-                                : height * .1),
+                        margin: EdgeInsets.only(top: height * .04),
                         child: Text(
                           "PIP",
                           style: TextStyle(
@@ -135,7 +131,7 @@ class _Register extends State<Register> {
                                 color: Theme.of(context).cursorColor, width: 3),
                           ),
                           border: OutlineInputBorder(),
-                        ),                   
+                        ),
                       ),
                     ),
                     Padding(
@@ -150,14 +146,14 @@ class _Register extends State<Register> {
                           prefixIcon: Container(
                               margin: EdgeInsets.only(
                                   left: width * .02, right: width * .05),
-                              child: Icon(Icons.person_outline,
+                              child: Icon(Icons.person,
                                   color: Theme.of(context).dividerColor)),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).cursorColor, width: 3),
                           ),
                           border: OutlineInputBorder(),
-                        ),                   
+                        ),
                       ),
                     ),
                     Padding(
@@ -173,7 +169,7 @@ class _Register extends State<Register> {
                             margin: EdgeInsets.only(
                                 left: width * .02, right: width * .05),
                             child: Icon(
-                              Icons.person_outline,
+                              Icons.email,
                               color: Theme.of(context).dividerColor,
                             ),
                           ),
@@ -296,12 +292,6 @@ class _Register extends State<Register> {
       ],
     ));
   }
-
-
-
-
-
-
 
 /*   @override
   Widget build(BuildContext context) {

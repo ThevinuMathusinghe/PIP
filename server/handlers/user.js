@@ -3,7 +3,15 @@ const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res, next) => {
   try {
-    const user = await db.User.findOne({ email: req.body.email.toLowerCase() });
+    if (req.body.email == '' || req.body.password == '') {
+      next({ message: 'Please enter your email address and password' });
+    }
+    const user = await db.User.findOne({
+      email: req.body.email.toLowerCase().trim(),
+    });
+    if (user == null) {
+      next({ message: 'That email does not belong to an account' });
+    }
     let { id } = user;
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
@@ -29,9 +37,20 @@ exports.login = async (req, res, next) => {
 
 exports.register = async (req, res, next) => {
   try {
+    // Check that all the fields are filled out
+    if (
+      req.body.firstName == '' ||
+      req.body.lastName == '' ||
+      req.body.email == '' ||
+      req.body.password == ''
+    ) {
+      next({ message: 'Please fill in all the fields' });
+    }
     const user = await db.User.create({
-      ...req.body,
-      email: req.body.email.toLowerCase(),
+      firstName: req.body.firstName.trim(),
+      lastName: req.body.lastName.trim(),
+      email: req.body.email.toLowerCase().trim(),
+      password: req.body.password.trim(),
     });
     let { id } = user;
     let token = jwt.sign(
@@ -44,7 +63,8 @@ exports.register = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    if (err === 11000) {
+    console.log(err);
+    if (err.code === 11000) {
       next({ message: 'Sorry that email is taken' });
     }
     next({
