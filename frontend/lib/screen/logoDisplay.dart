@@ -53,7 +53,10 @@ class _logoDisplayState extends State<logoDisplay> {
                   children: <Widget>[
                     ...logos.map((logo) {
                       return InkWell(
-                        onTap: () {},
+                        onLongPress: () {
+                          Navigator.of(context).pushNamed('/fifthLogo',
+                              arguments: {'logo': logo});
+                        },
                         child: Container(
                           width: width * .84,
                           height: height * .18,
