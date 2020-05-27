@@ -290,7 +290,7 @@ exports.getBookData = async (req, res, next) => {
         }
         count += 1;
       }
-    }, 1000);
+    }, 5000);
   } catch (err) {
     console.log(err);
   }
