@@ -146,7 +146,7 @@ class _Register extends State<Register> {
                           prefixIcon: Container(
                               margin: EdgeInsets.only(
                                   left: width * .02, right: width * .05),
-                              child: Icon(Icons.person_outline,
+                              child: Icon(Icons.person,
                                   color: Theme.of(context).dividerColor)),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -169,7 +169,7 @@ class _Register extends State<Register> {
                             margin: EdgeInsets.only(
                                 left: width * .02, right: width * .05),
                             child: Icon(
-                              Icons.person_outline,
+                              Icons.email,
                               color: Theme.of(context).dividerColor,
                             ),
                           ),
