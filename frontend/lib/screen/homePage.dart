@@ -25,7 +25,7 @@ class _HomePage extends State<HomePage> {
                   Theme.of(context).canvasColor
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: Container(
-                  padding: EdgeInsets.only(bottom: height * .02),
+                  padding: EdgeInsets.only(bottom: height * .1),
                   child: Center(
                       child: Text("PIP",
                           style: TextStyle(
