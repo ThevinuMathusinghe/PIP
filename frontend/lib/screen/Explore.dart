@@ -61,9 +61,11 @@ class _explore extends State<Explore> {
       });
 
       if (imageFile == null) return;
+      setState(() {
+        loading = true;
+      });
       String base64Image = base64Encode(imageFile.readAsBytesSync());
       String fileName = imageFile.path.split("/").last;
-      List<String> printOut = new List<String>();
       var res = await http.post(
           "https://limitless-meadow-18984.herokuapp.com/logo/identify",
           body: {
@@ -74,8 +76,13 @@ class _explore extends State<Explore> {
       if (response['error'] != null) {
         setState(() {
           errorMessage = response['error']['message'];
+          loading = false;
+          return;
         });
       }
+      setState(() {
+        loading = false;
+      });
       Navigator.of(context)
           .pushNamed('/fourthLogo', arguments: {'logo': response['logo']});
     } catch (err) {
@@ -110,6 +117,7 @@ class _explore extends State<Explore> {
                         textAlign: TextAlign.center,
                       ),
                       onTap: () {
+                        Navigator.of(context).pop();
                         gallery();
                       }),
                 ),
