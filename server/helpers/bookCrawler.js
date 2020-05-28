@@ -129,7 +129,7 @@ exports.getBookData = async (req, res, next) => {
 
     const interval = setInterval(async () => {
       const pages = await browser.pages();
-      if (pages.length <= 10) {
+      if (pages.length <= 5) {
         for (let i = count * 5; i < count * 5 + 5; i++) {
           (async () => {
             try {
@@ -247,6 +247,7 @@ exports.getBookData = async (req, res, next) => {
                   dateArray,
                   ratingArray,
                   imageClassArray,
+                  linkArray,
                 };
                 // console.log(titleArray);
                 // console.log(authorArray);
@@ -290,7 +291,7 @@ exports.getBookData = async (req, res, next) => {
         }
         count += 1;
       }
-    }, 5000);
+    }, 1000);
   } catch (err) {
     console.log(err);
   }
