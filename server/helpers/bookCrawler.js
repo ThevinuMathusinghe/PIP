@@ -1,18 +1,18 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
-const path = require("path");
-const db = require("../models");
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+const db = require('../models');
 
 exports.getCategories = async (req, res, next) => {
   try {
-    console.log("started");
+    console.log('started');
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.setViewport({ width: 1980, height: 1080 });
     await page.goto(req.body.url);
 
     const categoriesLinks = await page.evaluate(() => {
-      let links = document.querySelectorAll("li span a");
+      let links = document.querySelectorAll('li span a');
       let linksArray = Array.from(links);
       var linkClassArray = [];
 
@@ -23,27 +23,27 @@ exports.getCategories = async (req, res, next) => {
     });
 
     fs.writeFileSync(
-      path.join(__dirname, "./links/bookCategoriesLinks.txt"),
+      path.join(__dirname, './links/bookCategoriesLinks.txt'),
       categoriesLinks
     );
     browser.close();
     next();
-    console.log("done");
+    console.log('done');
   } catch (err) {
     console.log(err);
-    return res.json({ error: "Something has gone wrong", status: 400 });
+    return res.json({ error: 'Something has gone wrong', status: 400 });
   }
 };
 
 exports.getPageLinks = async (req, res, next) => {
   try {
-    console.log("started");
+    console.log('started');
     // Get the links from the file
     const secondPageLinks = fs.readFileSync(
-      path.join(__dirname, "./links/bookPageLinks.txt"),
-      "utf-8"
+      path.join(__dirname, './links/bookPageLinks.txt'),
+      'utf-8'
     );
-    let secondLinks = secondPageLinks.split(",");
+    let secondLinks = secondPageLinks.split(',');
 
     const browser = await puppeteer.launch({ headless: false });
 
@@ -65,29 +65,29 @@ exports.getPageLinks = async (req, res, next) => {
               // Save the link to a file
               // Get the old file
               const rawLinks = fs.readFileSync(
-                path.join(__dirname, "./links/bookPageLinks.txt"),
-                "utf-8"
+                path.join(__dirname, './links/bookPageLinks.txt'),
+                'utf-8'
               );
               // Get the data
-              let links = rawLinks.split(",");
+              let links = rawLinks.split(',');
               // Append the new data
               links.push(link);
               // save
               fs.writeFileSync(
-                path.join(__dirname, "./links/bookPageLinks.txt"),
+                path.join(__dirname, './links/bookPageLinks.txt'),
                 links
               );
               // get the link for the next page and add to a variable
               const bookPage = await page.evaluate(() => {
                 let links = document.querySelectorAll(
-                  "div.a-text-center li.a-last"
+                  'div.a-text-center li.a-last'
                 );
                 let linksArray = Array.from(links);
                 var linksData;
                 for (var i = 0; i < linksArray.length; i++) {
                   var linksArray2 = Array.from(linksArray[i].childNodes);
                   for (var j = 0; j < linksArray2.length; j++) {
-                    if (linksArray2[j].nodeName == "A") {
+                    if (linksArray2[j].nodeName == 'A') {
                       linksData = linksArray2[j].href;
                     }
                   }
@@ -110,36 +110,40 @@ exports.getPageLinks = async (req, res, next) => {
     }, 1000);
   } catch (err) {
     console.log(err);
-    return res.json({ error: "Something has gone wrong", status: 400 });
+    return res.json({ error: 'Something has gone wrong', status: 400 });
   }
 };
 
 exports.getBookData = async (req, res, next) => {
   try {
-    console.log("started");
+    console.log('started');
     const rawLinks = fs.readFileSync(
-      path.join(__dirname, "./links/bookPageLinks.txt"),
-      "utf-8"
+      path.join(__dirname, './links/bookPageLinks.txt'),
+      'utf-8'
     );
-    let links = rawLinks.split(",");
+    let links = rawLinks.split(',');
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
 
     let count = 0;
 
     const interval = setInterval(async () => {
       const pages = await browser.pages();
-      if (pages.length <= 5) {
+      if (pages.length <= 10) {
         for (let i = count * 5; i < count * 5 + 5; i++) {
           (async () => {
             try {
               const page = await browser.newPage();
               await page.setViewport({ width: 1980, height: 1080 });
-              await page.goto(links[i], { waitUntil: "load", timeout: 0 });
+              await page.goto(links[i], {
+                waitUntil: 'load',
+                timeout: 0,
+                referer: 'https://www.google.com',
+              });
 
               //Find the data in the links
               const bookData = await page.evaluate(() => {
-                let div = document.querySelectorAll("div.sg-col-inner");
+                let div = document.querySelectorAll('div.sg-col-inner');
                 let divArray = Array.from(div);
                 var dateArray = [];
                 var titleArray = [];
@@ -152,7 +156,7 @@ exports.getBookData = async (req, res, next) => {
                     divArray[i].childNodes[1] == undefined ||
                     divArray[i].childNodes[1].childNodes[3] == undefined
                   ) {
-                    dateArray.push("");
+                    dateArray.push('');
                   } else {
                     if (
                       divArray[i].childNodes[1].childNodes[3].childNodes
@@ -161,7 +165,7 @@ exports.getBookData = async (req, res, next) => {
                         divArray[i].childNodes[1].childNodes[3].childNodes
                           .length - 1
                       ].className ==
-                        "a-size-base a-color-secondary a-text-normal"
+                        'a-size-base a-color-secondary a-text-normal'
                     ) {
                       dateArray.push(
                         divArray[i].childNodes[1].childNodes[3].childNodes[
@@ -170,7 +174,7 @@ exports.getBookData = async (req, res, next) => {
                         ].innerText
                       );
                     } else {
-                      dateArray.push("");
+                      dateArray.push('');
                     }
                   }
                   ///AUTHOR///////////////////////////////////////////////////////////////////////////
@@ -180,11 +184,11 @@ exports.getBookData = async (req, res, next) => {
                     divArray[i].childNodes[1].childNodes[3].childNodes[1] ==
                       undefined
                   ) {
-                    authorArray.push("");
+                    authorArray.push('');
                   } else {
                     if (
                       divArray[i].childNodes[1].childNodes[3].childNodes[1]
-                        .className == "a-size-base"
+                        .className == 'a-size-base'
                     ) {
                       authorArray.push(
                         divArray[i].childNodes[1].childNodes[3].childNodes[1]
@@ -192,7 +196,7 @@ exports.getBookData = async (req, res, next) => {
                       );
                     } else if (
                       divArray[i].childNodes[1].childNodes[3].childNodes[2]
-                        .className == "a-size-base a-link-normal"
+                        .className == 'a-size-base a-link-normal'
                     ) {
                       authorArray.push(
                         divArray[i].childNodes[1].childNodes[3].childNodes[2]
@@ -213,7 +217,7 @@ exports.getBookData = async (req, res, next) => {
                     divArray[i].childNodes[3].childNodes[1].childNodes[1] ==
                       undefined
                   ) {
-                    ratingArray.push("");
+                    ratingArray.push('');
                   } else {
                     ratingArray.push(
                       divArray[i].childNodes[3].childNodes[1].childNodes[1]
@@ -228,13 +232,13 @@ exports.getBookData = async (req, res, next) => {
                 }
 
                 ///IMAGE//////////////////////////////////////////////////////////////////////////
-                let image = document.querySelectorAll("div.a-section");
+                let image = document.querySelectorAll('div.a-section');
                 let imageArray = Array.from(image);
                 var imageClassArray = [];
                 for (var i = 1; i < imageArray.length; i++) {
                   if (
                     imageArray[i].className ==
-                    "a-section aok-relative s-image-fixed-height"
+                    'a-section aok-relative s-image-fixed-height'
                   ) {
                     imageClassArray.push(
                       imageArray[i].childNodes[1].currentSrc
@@ -291,7 +295,7 @@ exports.getBookData = async (req, res, next) => {
         }
         count += 1;
       }
-    }, 1000);
+    }, Math.random() * 5 * 1000);
   } catch (err) {
     console.log(err);
   }
