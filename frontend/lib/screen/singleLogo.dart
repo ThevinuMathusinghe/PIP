@@ -87,11 +87,11 @@ class _SingleLogoState extends State<SingleLogo> {
                           padding: EdgeInsets.all(15),
                           children: <Widget>[
                             Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.all(5),
                                 child: RichText(
                                   text: new TextSpan(
                                       style: new TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 16.0,
                                         color: Colors.black,
                                       ),
                                       children: <TextSpan>[
@@ -104,11 +104,11 @@ class _SingleLogoState extends State<SingleLogo> {
                                       ]),
                                 )),
                             Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.all(5),
                                 child: RichText(
                                   text: new TextSpan(
                                       style: new TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 16.0,
                                         color: Colors.black,
                                       ),
                                       children: <TextSpan>[
@@ -121,11 +121,11 @@ class _SingleLogoState extends State<SingleLogo> {
                                       ]),
                                 )),
                             Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.all(5),
                                 child: RichText(
                                   text: new TextSpan(
                                       style: new TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 16.0,
                                         color: Colors.black,
                                       ),
                                       children: <TextSpan>[
@@ -138,11 +138,11 @@ class _SingleLogoState extends State<SingleLogo> {
                                       ]),
                                 )),
                             Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.all(5),
                                 child: RichText(
                                   text: new TextSpan(
                                       style: new TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 16.0,
                                         color: Colors.black,
                                       ),
                                       children: <TextSpan>[
@@ -155,11 +155,11 @@ class _SingleLogoState extends State<SingleLogo> {
                                       ]),
                                 )),
                             Container(
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: EdgeInsets.all(5),
                                 child: RichText(
                                   text: new TextSpan(
                                       style: new TextStyle(
-                                        fontSize: 17.0,
+                                        fontSize: 16.0,
                                         color: Colors.black,
                                       ),
                                       children: <TextSpan>[
@@ -197,31 +197,31 @@ class _SingleLogoState extends State<SingleLogo> {
                                 right: width * 0.08,
                                 top: height * 0.02),
                             decoration: BoxDecoration(
-                              color: color,
-                              boxShadow: [
+                              //color: color,
+                              /* boxShadow: [
                                 BoxShadow(
                                     color: Theme.of(context).accentColor,
                                     offset: Offset(0, 3),
                                     blurRadius: 6)
-                              ],
-                              border: Border.all(
-                                  color: Theme.of(context).accentColor,
-                                  width: 3.0),
+                              ], */
+                              border: Border.all(color: color, width: 3.0),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(25)),
                             ),
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  information['title'],
-                                ),
+                                Text(information['title'],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
                                 openDropdown[index]
                                     ? Container(
                                         padding:
                                             EdgeInsets.only(top: height * 0.01),
                                         child: Text(
                                           information['details'],
+                                          textAlign: TextAlign.center,
                                         ),
                                       )
                                     : Container()
