@@ -16,6 +16,7 @@ exports.getBooks = async (req, res, next) => {
     const client = new vision.ImageAnnotatorClient();
     const [result] = await client.textDetection(`./${name}`);
     const textLabels = result.textAnnotations;
+    console.log(textLabels);
     const text = textLabels
       .map((text) => {
         return text.description;
