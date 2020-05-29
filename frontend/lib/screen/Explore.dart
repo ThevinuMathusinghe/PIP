@@ -100,7 +100,91 @@ class _explore extends State<Explore> {
     }
   }
 
-  Future<void> _showChoiceDialog(BuildContext context) {
+  void productCamera() async {
+    try {
+      var camera = await ImagePicker.pickImage(
+        source: ImageSource.camera,
+      );
+      this.setState(() {
+        imageFile = camera;
+      });
+
+      if (imageFile == null) return;
+      setState(() {
+        loading = true;
+      });
+
+      String base64Image = base64Encode(imageFile.readAsBytesSync());
+      String fileName = imageFile.path.split("/").last;
+      List<String> printOut = new List<String>();
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/book/identify",
+          body: {
+            "image": base64Image,
+            "name": fileName,
+          });
+      var response = await json.decode(res.body);
+      if (response['error'] != null) {
+        setState(() {
+          errorMessage = response['error']['message'];
+        });
+      }
+      setState(() {
+        loading = false;
+      });
+      //print(response);
+      Navigator.of(context)
+          .pushNamed('/fourthProduct', arguments: {'books': response['books']});
+    } catch (err) {
+      setState(() {
+        errorMessage = err;
+      });
+    }
+  }
+
+  void productGallery() async {
+    try {
+      var gallery = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+      this.setState(() {
+        imageFile = gallery;
+      });
+
+      if (imageFile == null) return;
+      setState(() {
+        loading = true;
+      });
+      String base64Image = base64Encode(imageFile.readAsBytesSync());
+      String fileName = imageFile.path.split("/").last;
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/book/identify",
+          body: {
+            "image": base64Image,
+            "name": fileName,
+          });
+      var response = await json.decode(res.body);
+      if (response['error'] != null) {
+        setState(() {
+          errorMessage = response['error']['message'];
+          loading = false;
+          return;
+        });
+      }
+      setState(() {
+        loading = false;
+      });
+      print(response);
+      Navigator.of(context)
+          .pushNamed('/fourthProduct', arguments: {'books': response['books']});
+    } catch (err) {
+      setState(() {
+        errorMessage = err;
+      });
+    }
+  }
+
+  Future<void> _showChoiceDialog(BuildContext context, bool product) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -126,7 +210,11 @@ class _explore extends State<Explore> {
                       ),
                       onTap: () {
                         Navigator.of(context).pop();
-                        gallery();
+                        if (product) {
+                          productGallery();
+                        } else {
+                          gallery();
+                        }
                       }),
                 ),
                 Padding(
@@ -138,7 +226,12 @@ class _explore extends State<Explore> {
                       textAlign: TextAlign.center,
                     ),
                     onTap: () {
-                      camera();
+                      Navigator.of(context).pop();
+                      if (product) {
+                        productCamera();
+                      } else {
+                        camera();
+                      }
                     },
                   ),
                 )
@@ -191,7 +284,7 @@ class _explore extends State<Explore> {
                     ),
                     InkWell(
                       onTap: () {
-                        _showChoiceDialog(context);
+                        _showChoiceDialog(context, false);
                       },
                       child: Container(
                         margin: EdgeInsets.only(
@@ -233,7 +326,7 @@ class _explore extends State<Explore> {
                     ),
                     InkWell(
                       onTap: () {
-                        _showChoiceDialog(context);
+                        _showChoiceDialog(context, true);
                       },
                       child: Container(
                           margin: EdgeInsets.only(
@@ -317,69 +410,4 @@ class _explore extends State<Explore> {
       ],
     ));
   }
-
-  /*  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double exploreHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-        body: new Container(
-            padding: EdgeInsets.only(top: exploreHeight * 0.2),
-            color: Colors.blueAccent,
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                //Container(height: MediaQuery.of(context).padding.top),
-                new Column(children: <Widget>[
-                  ErrorMessage(errorMessage: errorMessage),
-                  ButtonTheme(
-                    minWidth: width * 0.85,
-                    height: exploreHeight * 0.20,
-                    child: Container(
-                      height: exploreHeight * .2,
-                      padding: EdgeInsets.only(
-                          right: width * 0.05, left: width * .05),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _showChoiceDialog(context);
-                        },
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Logo',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: Colors.lightBlueAccent,
-                      ),
-                    ),
-                  ),
-                  ButtonTheme(
-                    minWidth: width * 0.85,
-                    height: exploreHeight * 0.20,
-                    child: Padding(
-                      padding: EdgeInsets.all(width * 0.05),
-                      child: RaisedButton(
-                        onPressed: () {
-                          _showChoiceDialog(context);
-                        },
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Product',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: Colors.lightBlueAccent,
-                      ),
-                    ),
-                  )
-                ])
-              ],
-            ))); */
-  //}
 }
