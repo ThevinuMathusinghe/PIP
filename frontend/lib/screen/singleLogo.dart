@@ -27,8 +27,6 @@ class _SingleLogoState extends State<SingleLogo> {
           .cast<bool>();
       dataSet = true;
     }
-    print(logo['information'].length);
-    print(openDropdown);
     int indexDropdown = -1;
     return Scaffold(
         body: ListView(
