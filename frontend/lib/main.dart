@@ -4,6 +4,7 @@ import 'package:frontend/screen/Explore.dart';
 import 'package:frontend/screen/homePage.dart';
 import 'package:frontend/screen/login.dart';
 import 'package:frontend/screen/logoDisplay.dart';
+import 'package:frontend/screen/productDisplay.dart';
 import 'package:frontend/screen/register.dart';
 import 'package:frontend/screen/singleLogo.dart';
 import 'dart:io';
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
           '/secondRegister': (context) => Register(),
           '/thirdExplore': (context) => Explore(),
           '/fourthLogo': (context) => logoDisplay(),
-          '/fifthLogo': (context) => SingleLogo()
+          '/fifthLogo': (context) => SingleLogo(),
+          '/fourthProduct': (context) => ProductDisplay()
+
           //'/register': (context)=> Register(),
         }
         //routes: {'/': (ctx) => homePage(), '/login': (ctx) => Login()});
