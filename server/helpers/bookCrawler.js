@@ -35,6 +35,86 @@ exports.getCategories = async (req, res, next) => {
   }
 };
 
+exports.getExtraCategories = async (req, res, next) => {
+  try {
+    // Get the links off the given page
+    const browser = await puppeteer.launch({ headless: false });
+
+    const links = fs
+      .readFileSync(
+        path.join(__dirname, './links/bookFirstPageLinks.txt'),
+        'utf-8'
+      )
+      .split(',');
+
+    let count = 0;
+    // get all the links
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1980, height: 1080 });
+    await page.goto(
+      'https://www.amazon.com/s/ref=lp_283155_nr_n_18/144-0780266-2981001?fst=as%3Aoff&rh=n%3A283155%2Cn%3A%211000%2Cn%3A173514&bbn=1000&ie=UTF8&qid=1590153351&rnid=1000'
+    );
+
+    const subCategories = await page.evaluate(async () => {
+      var subCategories = document.querySelectorAll(
+        '.a-unordered-list.a-nostyle.a-vertical'
+      );
+      subCategories = Array.from(subCategories);
+
+      // var categoryName = document.querySelector('h1').innerText;
+      // categoryName = categoryName.replace('Books', '');
+      // categoryName = categoryName.trim();
+
+      // Find the one with the name in
+      var index = 0;
+      subCategories.forEach((sub, i) => {
+        if (sub.childNodes.length > 2) {
+          var one = sub.childNodes[1];
+          if (one.childNodes.length >= 1) {
+            if (one.childNodes[0].innerText == 'Medical Books') {
+              index = i;
+            }
+          }
+        }
+      });
+
+      var links = [];
+      subCategories[index].childNodes[2].childNodes[0].childNodes.forEach(
+        (li) => {
+          links.push(li.childNodes[0].childNodes[0].href);
+        }
+      );
+
+      return links;
+    });
+
+    page.close();
+
+    subCategories.forEach(async (cat) => {
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1980, height: 1080 });
+      await page.goto(cat);
+
+      const savedLink = await page.evaluate(() => {
+        return document.querySelector('#pagnNextLink').href;
+      });
+
+      const links = fs
+        .readFileSync(path.join(__dirname, './links/subLinks.txt'), 'utf-8')
+        .split(',');
+
+      links.push(savedLink);
+
+      fs.writeFileSync(path.join(__dirname, './links/subLinks.txt'), links);
+
+      page.close();
+    });
+  } catch (err) {
+    console.log(err);
+    next({ message: 'Something went wrong, please try again later' });
+  }
+};
+
 exports.getPageLinks = async (req, res, next) => {
   try {
     console.log('started');
