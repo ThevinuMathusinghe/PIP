@@ -73,3 +73,47 @@ exports.register = async (req, res, next) => {
     });
   }
 };
+
+exports.addSavedBook = async (req, res, next) => {
+  try {
+    const id = res.locals.id;
+    let user = await db.User.findOne({ _id: id });
+    if (user != null) {
+      let savedBooks = user.savedBooks;
+      if (savedBooks.indexOf(req.body.newBookId) < 0) {
+        savedBooks.push(req.body.newBookId);
+        user.savedBooks = savedBooks;
+        await user.save();
+      }
+      user = await db.User.findOne({ _id: id }).populate("savedBooks")
+      res.json({ user });
+    } else {
+      next({ message: "You do not have permission to do that" })
+    }
+  } catch (err) {
+    console.log(err);
+    next({ message: "Something went wrong, please try again later" });
+  }
+}
+
+exports.addSavedLogo = async (req, res, next) => {
+  try {
+    const id = res.locals.id;
+    let user = await db.User.findOne({ _id: id });
+    if (user != null) {
+      let savedLogos = user.savedLogos;
+      if (savedLogos.indexOf(req.body.newLogoId) < 0) {
+        savedLogos.push(req.body.newLogoId);
+        user.savedLogos = savedLogos;
+        await user.save();
+      }
+      user = await db.User.findOne({ _id: id }).populate("savedLogos");
+      res.json({ user })
+    } else {
+      next({ message: "You do not have permission to do that" })
+    }
+  } catch (err) {
+    console.log(err);
+    next({ message: "Something went wrong, try again later" })
+  }
+}
