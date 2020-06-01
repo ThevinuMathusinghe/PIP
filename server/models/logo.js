@@ -30,23 +30,6 @@ const logoSchema = new mongoose.Schema({
   website: {
     type: String,
   },
-  // reviews: {
-  //     type: [
-  //         {
-  //             type: mongoose.Schema.Types.ObjectId,
-  //             ref: "ReviewsCompany"
-  //         }
-  //     ]
-  // }
-
-  // categories: {
-  //     type: [
-  //         {
-  //             type: mongoose.Schema.Types.ObjectId,
-  //             ref: 'Categories',
-  //         }
-  //     ]
-  // },
 });
 
 module.exports = mongoose.model('Logos', logoSchema);
