@@ -16,6 +16,22 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  savedBooks: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book'
+      }
+    ]
+  },
+  savedLogos: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Logos'
+      }
+    ]
+  }
 });
 
 userSchema.pre('save', async function (next) {
