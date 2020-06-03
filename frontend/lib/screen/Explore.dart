@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/bottomNav.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
@@ -253,20 +254,7 @@ class _explore extends State<Explore> {
       return Loading();
     }
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text('Home'),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.close),
-              title: new Text('Sign Out'),
-            )
-          ],
-          //currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
+        bottomNavigationBar: BottomNav(),
         body: ListView(
           children: <Widget>[
             Stack(
