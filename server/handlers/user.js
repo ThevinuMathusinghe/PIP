@@ -117,3 +117,25 @@ exports.addSavedLogo = async (req, res, next) => {
     next({ message: "Something went wrong, try again later" })
   }
 }
+
+exports.getUserSavedLogos = async (req, res, next) => {
+  try {
+    const id = res.locals.id;
+    const user = await db.User.findOne({ _id: id }).populate('savedLogos');
+    res.json({ savedLogos: user.savedLogos })
+  } catch (err) {
+    console.log(err)
+    next({ message: "Something went wrong, please try again later" })
+  }
+}
+
+exports.getUserSavedBooks = async (req, res, next) => {
+  try {
+    const id = res.locals.id;
+    const user = await db.User.findOne({ _id: id }).populate("savedBooks")
+    res.json({ savedBooks: user.savedBooks });
+  } catch (err) {
+    console.log(err);
+    next({ mesage: "Something went wrong, please try again later" })
+  }
+}
