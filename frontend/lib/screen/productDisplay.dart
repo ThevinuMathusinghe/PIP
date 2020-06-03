@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProductDisplay extends StatefulWidget {
@@ -9,6 +11,23 @@ class ProductDisplay extends StatefulWidget {
 
 class _ProductDisplayState extends State<ProductDisplay> {
   var products;
+  bool icon = false;
+
+  void addProduct(String id, bool icon) async {
+    try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/book/add",
+          body: {"newBookId": id},
+          headers: {"authorization": "Bearer: " + token});
+      var response = json.decode(res.body);
+      icon = true;
+      // Change the color of the icon or even change the icon
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,99 +85,124 @@ class _ProductDisplayState extends State<ProductDisplay> {
                       onTap: () {
                         _launchURL(book['link']);
                       },
-                      child: Container(
-                        width: width * .84,
-                        height: height * .28,
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Theme.of(context).accentColor,
-                                offset: Offset(0, 3),
-                                blurRadius: 6)
-                          ],
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 3.0),
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                        ),
-                        margin: EdgeInsets.only(
-                          top: height * 0.05,
-                          left: width * .08,
-                          right: width * .08,
-                        ),
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                  height: height * 0.3,
-                                  width: width * 0.25,
-                                  padding: EdgeInsets.only(bottom: 0.2),
-                                  child: Image.network(
-                                    book['image'],
-                                    fit: BoxFit.cover,
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                        width: width * 0.4,
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Text(
-                                          book['title'],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                    Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: RichText(
-                                          text: new TextSpan(
-                                              style: new TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            width: width * .84,
+                            height: height * .28,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Theme.of(context).accentColor,
+                                    offset: Offset(0, 3),
+                                    blurRadius: 6)
+                              ],
+                              border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                  width: 3.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                            ),
+                            margin: EdgeInsets.only(
+                              top: height * 0.05,
+                              left: width * .08,
+                              right: width * .08,
+                            ),
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                      height: height * 0.3,
+                                      width: width * 0.25,
+                                      padding: EdgeInsets.only(bottom: 0.2),
+                                      child: Image.network(
+                                        book['image'],
+                                        fit: BoxFit.cover,
+                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                            width: width * 0.4,
+                                            padding:
+                                                EdgeInsets.only(bottom: 10),
+                                            child: Text(
+                                              book['title'],
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              children: <TextSpan>[
-                                                new TextSpan(
-                                                    text: "Author: ",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
-                                                new TextSpan(
-                                                    text: book['author'])
-                                              ]),
-                                        )),
-                                    Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: RichText(
-                                          text: new TextSpan(
-                                              style: new TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black,
-                                              ),
-                                              children: <TextSpan>[
-                                                new TextSpan(
-                                                    text: "Rating: ",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
-                                                new TextSpan(
-                                                    text: book['rating'])
-                                              ]),
-                                        )),
-                                  ],
-                                ),
+                                            )),
+                                        Container(
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            child: RichText(
+                                              text: new TextSpan(
+                                                  style: new TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    new TextSpan(
+                                                        text: "Author: ",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    new TextSpan(
+                                                        text: book['author'])
+                                                  ]),
+                                            )),
+                                        Container(
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            child: RichText(
+                                              text: new TextSpan(
+                                                  style: new TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    new TextSpan(
+                                                        text: "Rating: ",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    new TextSpan(
+                                                        text: book['rating'])
+                                                  ]),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: InkWell(
+                              onTap: () {
+                                addProduct(book['_id'], true);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top: 45, right: width * .08 + 10),
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Icon(Icons.add),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },
