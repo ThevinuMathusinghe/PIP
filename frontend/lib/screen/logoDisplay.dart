@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class logoDisplay extends StatefulWidget {
   @override
@@ -7,6 +10,22 @@ class logoDisplay extends StatefulWidget {
 
 class _logoDisplayState extends State<logoDisplay> {
   var logos;
+
+  void addLogo(String id) async {
+    try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/logo/add",
+          body: {"newLogoId": id},
+          headers: {"authorization": "Bearer: " + token});
+      var response = json.decode(res.body);
+
+      // Change the color of the icon or even change the icon
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +100,30 @@ class _logoDisplayState extends State<logoDisplay> {
                           child: Container(
                               child: ListView(
                             children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.only(bottom: 10),
-                                  child: Text(
-                                    logo['title'],
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        logo['title'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                  InkWell(
+                                    onTap: () {
+                                      addLogo(logo['_id']);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Icon(Icons.add),
                                     ),
-                                  )),
+                                  )
+                                ],
+                              ),
                               Container(
                                   padding: EdgeInsets.only(bottom: 5),
                                   child: RichText(
@@ -122,14 +156,7 @@ class _logoDisplayState extends State<logoDisplay> {
                                           )),
                                       new TextSpan(text: logo['address'])
                                     ]),
-                              )
-                                  //     child: Text(
-                                  //   'Address: ' + logo['address'],
-                                  //   style: TextStyle(
-                                  //     fontSize: 15,
-                                  //   ),
-                                  // )
-                                  ),
+                              )),
                             ],
                           )),
                         ),
