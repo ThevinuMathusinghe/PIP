@@ -22,7 +22,16 @@ class _ProductDisplayState extends State<ProductDisplay> {
           body: {"newBookId": id},
           headers: {"authorization": "Bearer: " + token});
       var response = json.decode(res.body);
-      icon = true;
+      if (icon = true) {
+        // Loop through the products
+        // for(int i = 0; i <= products.map(book);i++){
+
+        // }
+        // If the product you are on is the matching id
+        // add a saved field
+        setState(() {});
+      }
+      ;
       // Change the color of the icon or even change the icon
     } catch (err) {
       print(err);
@@ -198,7 +207,11 @@ class _ProductDisplayState extends State<ProductDisplay> {
                                 margin: EdgeInsets.only(
                                     top: 45, right: width * .08 + 10),
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Icon(Icons.add),
+                                child: Icon(Icons.add,
+                                    color:
+                                        book['saved'] != null && book['saved']
+                                            ? Colors.red
+                                            : Colors.black),
                               ),
                             ),
                           ),
