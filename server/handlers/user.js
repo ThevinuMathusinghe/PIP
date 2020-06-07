@@ -85,16 +85,16 @@ exports.addSavedBook = async (req, res, next) => {
         user.savedBooks = savedBooks;
         await user.save();
       }
-      user = await db.User.findOne({ _id: id }).populate("savedBooks")
+      user = await db.User.findOne({ _id: id }).populate('savedBooks');
       res.json({ user });
     } else {
-      next({ message: "You do not have permission to do that" })
+      next({ message: 'You do not have permission to do that' });
     }
   } catch (err) {
     console.log(err);
-    next({ message: "Something went wrong, please try again later" });
+    next({ message: 'Something went wrong, please try again later' });
   }
-}
+};
 
 exports.addSavedLogo = async (req, res, next) => {
   try {
@@ -107,35 +107,73 @@ exports.addSavedLogo = async (req, res, next) => {
         user.savedLogos = savedLogos;
         await user.save();
       }
-      user = await db.User.findOne({ _id: id }).populate("savedLogos");
-      res.json({ user })
+      user = await db.User.findOne({ _id: id }).populate('savedLogos');
+      res.json({ user });
     } else {
-      next({ message: "You do not have permission to do that" })
+      next({ message: 'You do not have permission to do that' });
     }
   } catch (err) {
     console.log(err);
-    next({ message: "Something went wrong, try again later" })
+    next({ message: 'Something went wrong, try again later' });
   }
-}
+};
 
 exports.getUserSavedLogos = async (req, res, next) => {
   try {
     const id = res.locals.id;
     const user = await db.User.findOne({ _id: id }).populate('savedLogos');
-    res.json({ savedLogos: user.savedLogos })
+    res.json({ savedLogos: user.savedLogos });
   } catch (err) {
-    console.log(err)
-    next({ message: "Something went wrong, please try again later" })
+    console.log(err);
+    next({ message: 'Something went wrong, please try again later' });
   }
-}
+};
 
 exports.getUserSavedBooks = async (req, res, next) => {
   try {
     const id = res.locals.id;
-    const user = await db.User.findOne({ _id: id }).populate("savedBooks")
+    const user = await db.User.findOne({ _id: id }).populate('savedBooks');
     res.json({ savedBooks: user.savedBooks });
   } catch (err) {
     console.log(err);
-    next({ mesage: "Something went wrong, please try again later" })
+    next({ message: 'Something went wrong, please try again later' });
   }
-}
+};
+
+exports.deleteBook = async (req, res, next) => {
+  try {
+    const user = await db.User.findById(res.locals.id).populate('savedBooks');
+    if (user != null) {
+      let removedSavedBooks = user.savedBooks.filter((book) => {
+        return book._id != req.body.deleteBookId;
+      });
+      user.savedBooks = removedSavedBooks;
+      await user.save();
+      res.json({ savedBooks: user.savedBooks });
+    } else {
+      next({ message: 'You do not have permission to do that' });
+    }
+  } catch (err) {
+    console.log(err);
+    next({ message: 'Something went wrong, please try again later' });
+  }
+};
+
+exports.deleteLogo = async (req, res, next) => {
+  try {
+    const user = await db.User.findById(res.locals.id).populate('savedLogos');
+    if (user != null) {
+      let removedSavedLogos = user.savedLogos.filter((logo) => {
+        return logo._id != req.body.deleteLogoId;
+      });
+      user.savedLogos = removedSavedLogos;
+      await user.save();
+      res.json({ savedLogos: user.savedLogos });
+    } else {
+      next({ message: 'You do not have permission to do that' });
+    }
+  } catch (err) {
+    console.log(err);
+    next({ message: 'Something went wrong, please try again later' });
+  }
+};
