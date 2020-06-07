@@ -12,6 +12,7 @@ class ProductDisplay extends StatefulWidget {
 class _ProductDisplayState extends State<ProductDisplay> {
   var products;
   bool icon = false;
+  bool dataSet = false;
 
   void addProduct(String id) async {
     try {
@@ -21,15 +22,13 @@ class _ProductDisplayState extends State<ProductDisplay> {
           "https://limitless-meadow-18984.herokuapp.com/user/saved/book/add",
           body: {"newBookId": id},
           headers: {"authorization": "Bearer: " + token});
-      var response = json.decode(res.body);
-      if (icon = true) {
-        // Loop through the products
-        for (int i = 0; i <= products.length; i++) {
-          if (products[i]['_id'] == id) {
-            setState(() {
-              products[i]['saved'] = true;
-            });
-          }
+
+      // Loop through the products
+      for (int i = 0; i < products.length; i++) {
+        if (products[i]['_id'] == id) {
+          setState(() {
+            products[i]['saved'] = true;
+          });
         }
       }
     } catch (err) {
@@ -46,14 +45,12 @@ class _ProductDisplayState extends State<ProductDisplay> {
           body: {"removeBookId": id},
           headers: {"authorization": "Bearer: " + token});
       var response = json.decode(res.body);
-      if (icon = true) {
-        // Loop through the products
-        for (int i = 0; i <= products.length; i++) {
-          if (products[i]['_id'] == id) {
-            setState(() {
-              products[i]['saved'] = false;
-            });
-          }
+      // Loop through the products
+      for (int i = 0; i < products.length; i++) {
+        if (products[i]['_id'] == id) {
+          setState(() {
+            products[i]['saved'] = false;
+          });
         }
       }
       // Change the color of the icon or even change the icon
@@ -69,8 +66,9 @@ class _ProductDisplayState extends State<ProductDisplay> {
 
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    if (routeArgs != null && routeArgs['books'] != null) {
+    if (routeArgs != null && routeArgs['books'] != null && !dataSet) {
       products = routeArgs['books'];
+      dataSet = true;
     }
 
     _launchURL(String link) async {
@@ -226,9 +224,9 @@ class _ProductDisplayState extends State<ProductDisplay> {
                             child: InkWell(
                               onTap: () {
                                 if (book['saved'] != null && book['saved']) {
-                                  addProduct(book['_id']);
+                                  removeProduct(book['_id']);
                                 }
-                                removeProduct(book['_id']);
+                                addProduct(book['_id']);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
