@@ -10,6 +10,7 @@ class logoDisplay extends StatefulWidget {
 
 class _logoDisplayState extends State<logoDisplay> {
   var logos;
+  bool dataSet = false;
 
   void addLogo(String id) async {
     try {
@@ -20,7 +21,13 @@ class _logoDisplayState extends State<logoDisplay> {
           body: {"newLogoId": id},
           headers: {"authorization": "Bearer: " + token});
       //var response = json.decode(res.body);
-
+      for (int i = 0; i < logos.length; i++) {
+        if (logos[i]['_id'] == id) {
+          setState(() {
+            logos[i]['saved'] = true;
+          });
+        }
+      }
       // Change the color of the icon or even change the icon
     } catch (err) {
       print(err);
@@ -32,15 +39,14 @@ class _logoDisplayState extends State<logoDisplay> {
       SharedPreferences myPrefs = await SharedPreferences.getInstance();
       String token = myPrefs.getString('jwt');
       var res = await http.post(
-          "https://limitless-meadow-18984.herokuapp.com/user/saved/book/delete",
-          body: {"removeBookId": id},
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/logo/delete",
+          body: {"removeLogoId": id},
           headers: {"authorization": "Bearer: " + token});
-      //var response = json.decode(res.body);
       // Loop through the products
-      for (int i = 0; i < products.length; i++) {
-        if (products[i]['_id'] == id) {
+      for (int i = 0; i < logos.length; i++) {
+        if (logos[i]['_id'] == id) {
           setState(() {
-            products[i]['saved'] = false;
+            logos[i]['saved'] = false;
           });
         }
       }
@@ -57,8 +63,9 @@ class _logoDisplayState extends State<logoDisplay> {
 
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    if (routeArgs != null && routeArgs['logo'] != null) {
+    if (routeArgs != null && routeArgs['logo'] != null && !dataSet) {
       logos = routeArgs['logo'];
+      dataSet = true;
     }
 
     return Scaffold(
@@ -138,11 +145,19 @@ class _logoDisplayState extends State<logoDisplay> {
                                       )),
                                   InkWell(
                                     onTap: () {
+                                      if (logo['saved'] != null &&
+                                          logo['saved']) {
+                                        removeLogo(logo['_id']);
+                                      }
                                       addLogo(logo['_id']);
                                     },
                                     child: Container(
                                       padding: EdgeInsets.only(bottom: 10),
-                                      child: Icon(Icons.add),
+                                      child: Icon(Icons.add,
+                                          color: logo['saved'] != null &&
+                                                  logo['saved']
+                                              ? Colors.red
+                                              : Colors.black),
                                     ),
                                   )
                                 ],
