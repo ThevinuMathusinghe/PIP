@@ -62,6 +62,8 @@ class _explore extends State<Explore> {
 
   void gallery() async {
     try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
       var gallery = await ImagePicker.pickImage(
         source: ImageSource.gallery,
       );
@@ -81,6 +83,20 @@ class _explore extends State<Explore> {
             "image": base64Image,
             "name": fileName,
           });
+      // Make request to get all the books /user/saved/books (get)
+      var savedRes = await http.get(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/logos",
+          headers: {"authorization": "Bearer: " + token});
+      var responseSaved = await json.decode(savedRes.body);
+      if (responseSaved['error'] != null) {
+        setState(() {
+          errorMessage = responseSaved['error']['message'];
+          loading = false;
+          return;
+        });
+      }
+      //Read the response etc, handle errors
+      //add saved field on relavent books
       var response = await json.decode(res.body);
       if (response['error'] != null) {
         setState(() {
@@ -92,6 +108,13 @@ class _explore extends State<Explore> {
       setState(() {
         loading = false;
       });
+      for (int i = 0; i < response['logo'].length; i++) {
+        responseSaved['savedLogos'].forEach((logo) {
+          if (response['logo'][i]['_id'] == logo['_id']) {
+            response['logo'][i]['saved'] = true;
+          }
+        });
+      }
       Navigator.of(context)
           .pushNamed('/fourthLogo', arguments: {'logo': response['logo']});
     } catch (err) {
@@ -103,6 +126,8 @@ class _explore extends State<Explore> {
 
   void productCamera() async {
     try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
       var camera = await ImagePicker.pickImage(
         source: ImageSource.camera,
       );
@@ -124,6 +149,17 @@ class _explore extends State<Explore> {
             "image": base64Image,
             "name": fileName,
           });
+      var savedRes = await http.get(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/books",
+          headers: {"authorization": "Bearer: " + token});
+      var responseSaved = await json.decode(savedRes.body);
+      if (responseSaved['error'] != null) {
+        setState(() {
+          errorMessage = responseSaved['error']['message'];
+          loading = false;
+          return;
+        });
+      }
       var response = await json.decode(res.body);
       if (response['error'] != null) {
         setState(() {
@@ -133,6 +169,13 @@ class _explore extends State<Explore> {
       setState(() {
         loading = false;
       });
+      for (int i = 0; i < response['books'].length; i++) {
+        responseSaved['savedBooks'].forEach((book) {
+          if (response['books'][i]['_id'] == book['_id']) {
+            response['books'][i]['saved'] = true;
+          }
+        });
+      }
       //print(response);
       Navigator.of(context)
           .pushNamed('/fourthProduct', arguments: {'books': response['books']});
@@ -145,6 +188,8 @@ class _explore extends State<Explore> {
 
   void productGallery() async {
     try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
       var gallery = await ImagePicker.pickImage(
         source: ImageSource.gallery,
       );
@@ -164,6 +209,17 @@ class _explore extends State<Explore> {
             "image": base64Image,
             "name": fileName,
           });
+      var savedRes = await http.get(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/books",
+          headers: {"authorization": "Bearer: " + token});
+      var responseSaved = await json.decode(savedRes.body);
+      if (responseSaved['error'] != null) {
+        setState(() {
+          errorMessage = responseSaved['error']['message'];
+          loading = false;
+          return;
+        });
+      }
       var response = await json.decode(res.body);
       if (response['error'] != null) {
         setState(() {
@@ -175,7 +231,14 @@ class _explore extends State<Explore> {
       setState(() {
         loading = false;
       });
-      print(response);
+      for (int i = 0; i < response['books'].length; i++) {
+        responseSaved['savedBooks'].forEach((book) {
+          if (response['books'][i]['_id'] == book['_id']) {
+            response['books'][i]['saved'] = true;
+          }
+        });
+      }
+      //print(response);
       Navigator.of(context)
           .pushNamed('/fourthProduct', arguments: {'books': response['books']});
     } catch (err) {
@@ -238,12 +301,6 @@ class _explore extends State<Explore> {
                 )
               ])));
         });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      // _selectedIndex = index;
-    });
   }
 
   @override
