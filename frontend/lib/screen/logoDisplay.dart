@@ -19,8 +19,31 @@ class _logoDisplayState extends State<logoDisplay> {
           "https://limitless-meadow-18984.herokuapp.com/user/saved/logo/add",
           body: {"newLogoId": id},
           headers: {"authorization": "Bearer: " + token});
-      var response = json.decode(res.body);
+      //var response = json.decode(res.body);
 
+      // Change the color of the icon or even change the icon
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void removeLogo(String id) async {
+    try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/book/delete",
+          body: {"removeBookId": id},
+          headers: {"authorization": "Bearer: " + token});
+      //var response = json.decode(res.body);
+      // Loop through the products
+      for (int i = 0; i < products.length; i++) {
+        if (products[i]['_id'] == id) {
+          setState(() {
+            products[i]['saved'] = false;
+          });
+        }
+      }
       // Change the color of the icon or even change the icon
     } catch (err) {
       print(err);
