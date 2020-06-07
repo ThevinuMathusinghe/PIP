@@ -13,7 +13,7 @@ class _ProductDisplayState extends State<ProductDisplay> {
   var products;
   bool icon = false;
 
-  void addProduct(String id, bool icon) async {
+  void addProduct(String id) async {
     try {
       SharedPreferences myPrefs = await SharedPreferences.getInstance();
       String token = myPrefs.getString('jwt');
@@ -24,14 +24,38 @@ class _ProductDisplayState extends State<ProductDisplay> {
       var response = json.decode(res.body);
       if (icon = true) {
         // Loop through the products
-        // for(int i = 0; i <= products.map(book);i++){
-
-        // }
-        // If the product you are on is the matching id
-        // add a saved field
-        setState(() {});
+        for (int i = 0; i <= products.length; i++) {
+          if (products[i]['_id'] == id) {
+            setState(() {
+              products[i]['saved'] = true;
+            });
+          }
+        }
       }
-      ;
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void removeProduct(String id) async {
+    try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
+      var res = await http.post(
+          "https://limitless-meadow-18984.herokuapp.com/user/saved/book/delete",
+          body: {"removeBookId": id},
+          headers: {"authorization": "Bearer: " + token});
+      var response = json.decode(res.body);
+      if (icon = true) {
+        // Loop through the products
+        for (int i = 0; i <= products.length; i++) {
+          if (products[i]['_id'] == id) {
+            setState(() {
+              products[i]['saved'] = false;
+            });
+          }
+        }
+      }
       // Change the color of the icon or even change the icon
     } catch (err) {
       print(err);
@@ -201,7 +225,10 @@ class _ProductDisplayState extends State<ProductDisplay> {
                             alignment: Alignment.topRight,
                             child: InkWell(
                               onTap: () {
-                                addProduct(book['_id'], true);
+                                if (book['saved'] != null && book['saved']) {
+                                  addProduct(book['_id']);
+                                }
+                                removeProduct(book['_id']);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
