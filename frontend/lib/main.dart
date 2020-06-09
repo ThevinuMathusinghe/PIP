@@ -6,6 +6,8 @@ import 'package:frontend/screen/login.dart';
 import 'package:frontend/screen/logoDisplay.dart';
 import 'package:frontend/screen/productDisplay.dart';
 import 'package:frontend/screen/register.dart';
+import 'package:frontend/screen/savedBooks.dart';
+import 'package:frontend/screen/savedLogos.dart';
 import 'package:frontend/screen/singleLogo.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -35,7 +37,9 @@ class MyApp extends StatelessWidget {
           '/thirdExplore': (context) => Explore(),
           '/fourthLogo': (context) => logoDisplay(),
           '/fifthLogo': (context) => SingleLogo(),
-          '/fourthProduct': (context) => ProductDisplay()
+          '/fourthProduct': (context) => ProductDisplay(),
+          '/savedLogos': (context) => SavedLogos(),
+          '/savedBooks': (context) => SavedBooks()
 
           //'/register': (context)=> Register(),
         }

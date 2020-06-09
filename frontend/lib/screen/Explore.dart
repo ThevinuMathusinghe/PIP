@@ -249,57 +249,89 @@ class _explore extends State<Explore> {
   }
 
   Future<void> _showChoiceDialog(BuildContext context, bool product) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text(
-                "Make a choice",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              content: SingleChildScrollView(
-                  child: ListBody(children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.001),
-                  child: GestureDetector(
-                      child: Text(
-                        'Gallery',
-                        textAlign: TextAlign.center,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        if (product) {
-                          productGallery();
-                        } else {
-                          gallery();
-                        }
-                      }),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: height * 0.01, top: height * 0.03),
-                  child: GestureDetector(
-                    child: Text(
-                      'Camera',
-                      textAlign: TextAlign.center,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      if (product) {
-                        productCamera();
-                      } else {
-                        camera();
-                      }
-                    },
-                  ),
-                )
-              ])));
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+          return Scaffold(
+              backgroundColor: Colors.black.withOpacity(.2),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      width: width * .5,
+                      height: height * .2,
+                      margin: EdgeInsets.only(
+                          left: width * .25, right: width * .25),
+                      padding: EdgeInsets.only(
+                          top: height * .05, bottom: height * .05),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              child: Text(
+                            "Make A Choice",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline),
+                          )),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (product) {
+                                productGallery();
+                              } else {
+                                gallery();
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text(
+                                    'Gallery',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Container(child: Icon(Icons.camera, size: 20))
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (product) {
+                                productCamera();
+                              } else {
+                                camera();
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text(
+                                    'Camera',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Container(
+                                    child: Icon(Icons.camera_alt, size: 20))
+                              ],
+                            ),
+                          )
+                        ],
+                      ))
+                ],
+              ));
         });
   }
 
@@ -378,10 +410,8 @@ class _explore extends State<Explore> {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter)),
                             child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02, top: height * 0.01),
+                              alignment: Alignment.center,
+                              child: Container(
                                 child: Text(
                                   "Logo",
                                   style: TextStyle(
@@ -419,13 +449,10 @@ class _explore extends State<Explore> {
                                   color: Colors.white),
                               child: Center(
                                   child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: width * 0.02,
-                                            top: height * 0.01),
+                                      alignment: Alignment.center,
+                                      child: Container(
                                         child: Text(
-                                          "Product",
+                                          "Books",
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .dividerColor,
@@ -434,45 +461,90 @@ class _explore extends State<Explore> {
                                         ),
                                       )))),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                              margin: EdgeInsets.only(
-                                left: width * .08,
-                                right: width * .08,
-                              ),
-                              width: width * .84,
-                              height: height * .19,
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Theme.of(context).accentColor,
-                                        offset: Offset(0, 3),
-                                        blurRadius: 6)
-                                  ],
-                                  borderRadius: BorderRadius.circular(10),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Theme.of(context).accentColor,
-                                        Theme.of(context).canvasColor
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter)),
-                              child: Center(
-                                  child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width * 0.02, top: height * 0.01),
-                                  child: Text(
-                                    "Saved",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/savedLogos');
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                    left: width * .08,
                                   ),
-                                ),
-                              ))),
+                                  width: width * .38,
+                                  height: height * .19,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            offset: Offset(0, 3),
+                                            blurRadius: 6)
+                                      ],
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Theme.of(context).accentColor,
+                                            Theme.of(context).canvasColor
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter)),
+                                  child: Center(
+                                      child: Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      child: Text(
+                                        "Saved Logos",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ))),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/savedBooks');
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                    right: width * .08,
+                                  ),
+                                  width: width * .38,
+                                  height: height * .19,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            offset: Offset(0, 3),
+                                            blurRadius: 6)
+                                      ],
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Theme.of(context).accentColor,
+                                            Theme.of(context).canvasColor
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter)),
+                                  child: Center(
+                                      child: Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      child: Text(
+                                        "Saved Books",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ))),
+                            ),
+                          ],
                         ),
                       ],
                     ))
