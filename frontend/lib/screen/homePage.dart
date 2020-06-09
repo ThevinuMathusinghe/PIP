@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screen/register.dart';
+import 'package:frontend/widgets/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,11 +9,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  bool loading = true;
+
+  void checkJwt() async {
+    try {
+      SharedPreferences myPrefs = await SharedPreferences.getInstance();
+      String token = myPrefs.getString('jwt');
+      if (token == null || token == "") {
+        setState(() {
+          loading = false;
+        });
+      } else {
+        setState(() {
+          loading = false;
+        });
+        Navigator.of(context).pushNamed("/thirdExplore");
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkJwt();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
+    if (loading) {
+      return Loading();
+    }
     return Scaffold(
         body: ListView(
       children: <Widget>[
