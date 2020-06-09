@@ -121,9 +121,14 @@ exports.addSavedLogo = async (req, res, next) => {
 exports.getUserSavedLogos = async (req, res, next) => {
   try {
     const id = res.locals.id;
-    const user = await db.User.findOne({ _id: id }).populate(
-      'savedLogos information'
-    );
+    const user = await db.User.findOne({ _id: id }).populate({
+      path: 'savedLogos',
+      model: 'Logos',
+      populate: {
+        path: 'information',
+        model: 'Information',
+      },
+    });
     res.json({ savedLogos: user.savedLogos });
   } catch (err) {
     console.log(err);
@@ -134,13 +139,7 @@ exports.getUserSavedLogos = async (req, res, next) => {
 exports.getUserSavedBooks = async (req, res, next) => {
   try {
     const id = res.locals.id;
-    const user = await db.User.findOne({ _id: id }).populate({
-      path: '/savedLogos',
-      populate: {
-        path: 'information',
-        model: 'Information',
-      },
-    });
+    const user = await db.User.findOne({ _id: id }).populate('savedBooks');
     res.json({ savedBooks: user.savedBooks });
   } catch (err) {
     console.log(err);
