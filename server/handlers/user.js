@@ -121,7 +121,9 @@ exports.addSavedLogo = async (req, res, next) => {
 exports.getUserSavedLogos = async (req, res, next) => {
   try {
     const id = res.locals.id;
-    const user = await db.User.findOne({ _id: id }).populate('savedLogos');
+    const user = await db.User.findOne({ _id: id }).populate(
+      'savedLogos information'
+    );
     res.json({ savedLogos: user.savedLogos });
   } catch (err) {
     console.log(err);
