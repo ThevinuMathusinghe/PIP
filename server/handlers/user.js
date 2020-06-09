@@ -134,9 +134,13 @@ exports.getUserSavedLogos = async (req, res, next) => {
 exports.getUserSavedBooks = async (req, res, next) => {
   try {
     const id = res.locals.id;
-    const user = await db.User.findOne({ _id: id }).populate(
-      'savedBooks information'
-    );
+    const user = await db.User.findOne({ _id: id }).populate({
+      path: '/savedLogos',
+      populate: {
+        path: 'information',
+        model: 'Information',
+      },
+    });
     res.json({ savedBooks: user.savedBooks });
   } catch (err) {
     console.log(err);
