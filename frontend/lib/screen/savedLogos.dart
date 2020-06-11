@@ -134,7 +134,7 @@ class _SavedLogosState extends State<SavedLogos> {
                                       },
                                       child: Container(
                                         width: width * .84,
-                                        height: height * .12,
+                                        height: height * .18,
                                         padding: EdgeInsets.all(15),
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
