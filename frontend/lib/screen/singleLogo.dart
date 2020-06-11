@@ -67,7 +67,7 @@ class _SingleLogoState extends State<SingleLogo> {
                     child: ListView(
                       children: <Widget>[
                         Container(
-                          height: height * 0.2,
+                          height: height * 0.34,
                           width: width * 0.6,
                           margin: EdgeInsets.only(
                               top: height * 0.05,
