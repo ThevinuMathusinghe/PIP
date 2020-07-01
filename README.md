@@ -1,3 +1,3 @@
 # Logistics
 
-A project in which to minute the meetings held.
+This project capitalizes on ethical consumerism/shopping and broadens the notion of what sorts of attributes a person is interested in considering when making a purchase. 
